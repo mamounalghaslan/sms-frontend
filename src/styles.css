@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.align-right {
+  text-align: right;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container {
+  height: 100%;
+  width: 100%;
+}
+
+.container-full-height {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-button {
+  width: 80px;
+  height: 80px;
+  font-size: 36px;
+  border-radius: 50%;
+}
+
+.container-95-height {
+  height: 95%;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

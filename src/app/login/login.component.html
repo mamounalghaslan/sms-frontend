@@ -1,0 +1,22 @@
+<div class="container container-full-height">
+  <div class="row">
+    <div class="col-12">
+      <h1>Sign in</h1>
+      <form [formGroup]="loginForm">
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Username" formControlName="username">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" formControlName="password">
+          </mat-form-field>
+        </p>
+        <div class="align-right">
+          <button type="submit" mat-button>Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

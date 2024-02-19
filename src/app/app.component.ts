@@ -1,23 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {AppServiceService} from "./app-service.service";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
-  title = 'sms-frontend';
-  // use the service
-  public service: AppServiceService;
-  constructor(service: AppServiceService) {
-    this.service = service;
-  }
-  // use the service
-  ngOnInit() {
-    this.service.getTitle().subscribe((data: string) => this.title = data);
-  }
+export class AppComponent {
+
 }

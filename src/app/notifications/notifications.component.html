@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row">
+
+      <h2>Out of stock items</h2>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef> Product </th>
+          <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="shelfName">
+          <th mat-header-cell *matHeaderCellDef> Shelf </th>
+          <td mat-cell *matCellDef="let element"> {{element.shelfName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sectionName">
+          <th mat-header-cell *matHeaderCellDef> Section </th>
+          <td mat-cell *matCellDef="let element"> {{element.sectionName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary">Resolve</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+    </div>
+  <div class="row">
+
+    <h2 class="pt-3">Misplaced items</h2>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef> Product </th>
+        <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shelfName">
+        <th mat-header-cell *matHeaderCellDef> Shelf </th>
+        <td mat-cell *matCellDef="let element"> {{element.shelfName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sectionName">
+        <th mat-header-cell *matHeaderCellDef> Section </th>
+        <td mat-cell *matCellDef="let element"> {{element.sectionName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button color="primary">Resolve</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+  </div>
+</div>
