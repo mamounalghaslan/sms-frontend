@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import {LoginComponent} from "./login/login.component";
+import {LoginComponent} from "./components/login/login.component";
 import {AppComponent} from "./app.component";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -21,8 +21,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
-import {NotificationsComponent} from "./notifications/notifications.component";
-import {CamerasComponent} from "./cameras/cameras.component";
+import {NotificationsComponent} from "./components/notifications/notifications.component";
+import {CamerasComponent} from "./components/cameras/cameras.component";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 
 const routes = [
