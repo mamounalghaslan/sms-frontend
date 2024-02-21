@@ -1,6 +1,8 @@
 
 export interface Camera {
 
+  name: string;
+
   ipAddress: string;
   port: number;
 

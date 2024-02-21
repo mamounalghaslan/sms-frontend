@@ -37,13 +37,6 @@ mat-sidenav-container {
   align-items: center;
 }
 
-.add-button {
-  width: 80px;
-  height: 80px;
-  font-size: 36px;
-  border-radius: 50%;
-}
-
 .container-95-height {
   height: 95%;
   width: 95%;
@@ -51,3 +44,11 @@ mat-sidenav-container {
   justify-content: center;
   align-items: center;
 }
+
+.align-right-bottom {
+  display: flex;
+  justify-content: flex-end; /* Align horizontally to the right */
+  align-items: flex-end; /* Align vertically to the bottom */
+  height: 100%; /* Ensure the div takes up full height to allow bottom alignment */
+}
+
