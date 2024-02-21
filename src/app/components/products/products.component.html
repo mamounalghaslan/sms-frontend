@@ -1,11 +1,11 @@
 <div class="container">
 
-  <mat-toolbar>
+  <mat-toolbar class="mb-3 shadow-sm">
     <span>Products</span>
     <span class="toolbar-spacer"></span>
     <span>
       <button mat-raised-button class="add-button" color="primary" (click)="openAddNewProductTemplate()">
-        <mat-icon>add</mat-icon> Add New
+        <mat-icon>add</mat-icon> Add New Product
       </button>
     </span>
   </mat-toolbar>
@@ -40,33 +40,55 @@
   </table>
 </div>
 
-<ng-template #manageProductTemplate>
-  <mat-card style="width: 500px">
+<ng-template #newProductTemplate>
+  <mat-card style="width: 600px">
     <mat-card-header>
       <mat-card-title>
-        <h2>Manage Product: {{selectedProduct?.name}}</h2>
+        <h2>New Product</h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="productForm">
         <div class="row">
           <div class="col-6">
-            <mat-form-field>
-              <input matInput placeholder="Product Name" formControlName="name">
-            </mat-form-field>
+            <div class="row">
+              <div class="col-12">
+                <mat-form-field>
+                  <input matInput placeholder="Product Name" formControlName="name">
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field>
+                  <input matInput placeholder="Shelf" formControlName="shelf">
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field>
+                  <input matInput placeholder="Section" formControlName="section">
+                </mat-form-field>
+              </div>
+            </div>
           </div>
           <div class="col-6">
-            <mat-form-field>
-              <input matInput placeholder="Shelf" formControlName="shelf">
-            </mat-form-field>
+            <div class="row">
+              <div class="col-12">
+                <input #imagesInput class="d-none" type="file" (change)="onFileSelected($event)" multiple accept="image/*">
+                <button mat-raised-button color="primary" (click)="imagesInput.click()">Upload Product Images</button>
+              </div>
+              <div class="col-12 mt-3 mb-3">
+                <div class="thumbnails">
+                  <div class="thumbnail" *ngFor="let image of images; let i = index">
+                    <img [src]="image">
+                    <div class="remove-icon" (click)="removeImage(i)">X</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-6">
-            <mat-form-field>
-              <input matInput placeholder="Section" formControlName="section">
-            </mat-form-field>
-          </div>
-          <div class="col-6">
-            <div class="align-right-bottom">
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="align-right">
               <button mat-raised-button color="primary" (click)="saveProduct()">Save</button>
             </div>
           </div>

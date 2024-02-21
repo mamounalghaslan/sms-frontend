@@ -1,6 +1,8 @@
 
 export interface Notification {
 
+  systemId: number;
+
   productName: string;
   errorType: string;
 

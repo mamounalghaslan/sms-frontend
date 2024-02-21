@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Notification} from "../../models/Notification";
-
-const ELEMENT_DATA: Notification[] = [
-  {productName: 'product name 1', errorType: 'Out of Stock', shelf: '12', section: 'A'},
-  {productName: 'product name 2', errorType: 'Out of Stock', shelf: '15', section: 'B'},
-  {productName: 'product name 3', errorType: 'Misplaced', shelf: '7', section: 'C'},
-  {productName: 'product name 4', errorType: 'Misplaced', shelf: '12', section: 'D'}
-];
+import {NotificationsService} from "../../services/notifications.service";
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html'
 })
-export class NotificationsComponent {
+export class NotificationsComponent implements OnInit {
 
   displayedColumns: string[] = ['productName', 'errorType', 'shelf', 'section', 'actions'];
-  dataSource = ELEMENT_DATA;
+  dataSource: Notification[] = [];
+
+  constructor(private service: NotificationsService) {
+  }
+
+  ngOnInit() {
+    this.dataSource = this.service.getNotifications();
+  }
 
 }

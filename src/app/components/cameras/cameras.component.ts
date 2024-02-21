@@ -1,14 +1,8 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Camera} from "../../models/Camera";
-
-const ELEMENT_DATA: Camera[] = [
-  {name: 'camera 1', ipAddress: '103.12.31.1', port: 2233, section: 'A', shelf: '1', status: 'OK', username: '', password: ''},
-  {name: 'camera 2', ipAddress: '103.12.31.2', port: 2233, section: 'B', shelf: '1', status: 'OK', username: '', password: ''},
-  {name: 'camera 3', ipAddress: '103.12.31.3', port: 2233, section: 'A', shelf: '2', status: 'DISCONNECTED', username: '', password: ''},
-  {name: 'camera 4', ipAddress: '103.12.31.4', port: 2233, section: 'B', shelf: '2', status: 'OK', username: '', password: ''}
-];
+import {CamerasService} from "../../services/cameras.service";
 
 const ipAddressPattern = '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$';
 
@@ -16,10 +10,10 @@ const ipAddressPattern = '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$';
   selector: 'app-cameras',
   templateUrl: './cameras.component.html'
 })
-export class CamerasComponent {
+export class CamerasComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'status', 'ipAddress', 'port', 'section', 'shelf', 'actions'];
-  dataSource = ELEMENT_DATA;
+  dataSource: Camera[] = [];
 
   public newCameraForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -37,7 +31,13 @@ export class CamerasComponent {
   public newCameraTemplateRef: MatDialogRef<any> | undefined;
 
   constructor(private fb: FormBuilder,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private service: CamerasService) {
+  }
+
+  ngOnInit() {
+    this.dataSource = this.service.getCameras();
+  }
 
   public openNewCameraTemplate() {
     this.newCameraTemplateRef = this.dialog.open(this.newCameraTemplate!,{

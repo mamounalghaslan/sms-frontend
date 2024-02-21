@@ -24,15 +24,17 @@ import {MatListModule} from "@angular/material/list";
 import {NotificationsComponent} from "./components/notifications/notifications.component";
 import {CamerasComponent} from "./components/cameras/cameras.component";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
-import {ProductsComponent} from "./components/products/products/products.component";
+import {ProductsComponent} from "./components/products/products.component";
 import {EmployeesComponent} from './components/employees/employees.component';
+import {ModelComponent} from "./components/model/model.component";
 
 const routes = [
   {path: '', component: LoginComponent},
   {path: 'notifications', component: NotificationsComponent},
   {path: 'cameras', component: CamerasComponent},
   {path: 'products', component: ProductsComponent},
-  {path: 'employees', component: EmployeesComponent}
+  {path: 'employees', component: EmployeesComponent},
+  {path: 'model', component: ModelComponent}
 ]
 
 @NgModule({
@@ -66,7 +68,8 @@ const routes = [
     NotificationsComponent,
     CamerasComponent,
     ProductsComponent,
-    EmployeesComponent
+    EmployeesComponent,
+    ModelComponent
   ],
   bootstrap: [
     AppComponent

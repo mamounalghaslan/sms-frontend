@@ -1,11 +1,11 @@
 <div class="container">
 
-  <mat-toolbar>
+  <mat-toolbar class="mb-3 shadow-sm">
     <span>Employees</span>
     <span class="toolbar-spacer"></span>
     <span>
       <button mat-raised-button class="add-button" color="primary" (click)="openAddNewEmployeeTemplate()">
-        <mat-icon>add</mat-icon> Add New
+        <mat-icon>add</mat-icon> Add New Employee
       </button>
     </span>
   </mat-toolbar>
@@ -36,7 +36,7 @@
 </div>
 
 <ng-template #newEmployeeTemplate>
-  <mat-card style="width: 500px">
+  <mat-card style="width: 600px">
     <mat-card-header>
       <mat-card-title>
         <h2>New Employee</h2>

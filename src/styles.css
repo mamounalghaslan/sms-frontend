@@ -3,13 +3,20 @@
 
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+@font-face {
+  font-family: 'Lexend Variable';
+  src: url('assets/fonts/LexendDeca-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 html, body {
   height: 100%;
   width: 100%;
 }
 
 body {
-  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
 }
 
 .align-right {
@@ -20,13 +27,13 @@ body {
   box-sizing: border-box;
 }
 
-.toolbar-spacer {
-  flex: 1 1 auto;
+mat-sidenav-container {
+  min-height: 260px;
+  border-bottom: #f5f5f5 1px solid;
 }
 
-mat-sidenav-container {
-  height: 100%;
-  width: 100%;
+.toolbar-spacer {
+  flex: 1 1 auto;
 }
 
 .container-full-height {
@@ -47,8 +54,40 @@ mat-sidenav-container {
 
 .align-right-bottom {
   display: flex;
-  justify-content: flex-end; /* Align horizontally to the right */
-  align-items: flex-end; /* Align vertically to the bottom */
-  height: 100%; /* Ensure the div takes up full height to allow bottom alignment */
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 80%;
 }
 
+.thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.thumbnail {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+}
+
+.remove-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 0, 0, 0.7);
+  color: white;
+  cursor: pointer;
+  padding: 2px 5px;
+  display: none;
+}
+
+.thumbnail:hover .remove-icon {
+  display: block;
+}

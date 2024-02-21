@@ -1,23 +1,17 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
-import {Employee} from "../../models/Employee";
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-
-const ELEMENT_DATA: Employee[] = [
-  {name: 'employee 1', mobile: '0512345678'},
-  {name: 'employee 2', mobile: '0512345678'},
-  {name: 'employee 3', mobile: '0512345678'},
-  {name: 'employee 4', mobile: '0512345678'}
-];
+import {EmployeesService} from "../../services/employees.service";
+import {Employee} from "../../models/Employee";
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html'
 })
-export class EmployeesComponent {
+export class EmployeesComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'mobile', 'actions'];
-  dataSource = ELEMENT_DATA;
+  dataSource: Employee[] = [];
 
   public newEmployeeForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -31,7 +25,12 @@ export class EmployeesComponent {
   public newEmployeeTemplateRef: MatDialogRef<any> | undefined;
 
   constructor(private fb: FormBuilder,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private service: EmployeesService) {
+  }
+
+  ngOnInit() {
+    this.dataSource = this.service.getEmployees();
   }
 
   openAddNewEmployeeTemplate() {
