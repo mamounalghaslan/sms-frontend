@@ -78,7 +78,7 @@
               <div class="col-12 mt-3 mb-3">
                 <div class="thumbnails">
                   <div class="thumbnail" *ngFor="let image of images; let i = index">
-                    <img [src]="image">
+                    <img [src]="image" alt="">
                     <div class="remove-icon" (click)="removeImage(i)">X</div>
                   </div>
                 </div>
