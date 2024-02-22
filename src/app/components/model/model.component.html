@@ -4,7 +4,8 @@
     <span>Model Management</span>
     <span class="toolbar-spacer"></span>
     <span>
-      <button mat-raised-button class="add-button" color="primary">
+      <button mat-raised-button class="add-button" color="primary"
+              (click)="openNewModelTemplate()">
         <mat-icon>add</mat-icon> Train a New Model
       </button>
     </span>
@@ -15,7 +16,7 @@
     <div class="col-12">
       <h2 style="font-weight: lighter">Current Running Model</h2>
       <p>Model Name: <strong>{{currentModel?.name}}</strong></p>
-      <p>Model Type: <strong>{{currentModel?.type}}</strong></p>
+      <p>Model Type: <strong>{{currentModel?.typeName}}</strong></p>
       <p>Creation Date: <strong>{{currentModel?.creationDate | date:'short' }}</strong></p>
       <p>Number of Products: <strong>{{currentModel?.numberOfProducts}}</strong></p>
       <p>Camera Refresh Rate: <strong>30 seconds</strong></p>
@@ -60,3 +61,43 @@
   </div>
 
 </div>
+
+<ng-template #newModelTemplate>
+  <mat-card style="width: 600px">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Train New Model</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="newModelForm">
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <mat-label>
+                Name
+              </mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <mat-label>
+                Type
+              </mat-label>
+              <mat-select formControlName="typeId">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let model of modelTypes" [value]="model.typeId">{{model.typeName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <div class="align-right-bottom">
+              <button mat-raised-button color="primary" (click)="submitNewModel()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
