@@ -15,10 +15,10 @@
 
     <div class="col-12">
       <h2 style="font-weight: lighter">Current Running Model</h2>
-      <p>Model Name: <strong>{{currentModel?.name}}</strong></p>
-      <p>Model Type: <strong>{{currentModel?.typeName}}</strong></p>
+      <p>Model ID: <strong>{{currentModel?.systemId}}</strong></p>
+      <p>Model Name: <strong>{{currentModel?.modelType?.name}}</strong></p>
       <p>Creation Date: <strong>{{currentModel?.creationDate | date:'short' }}</strong></p>
-      <p>Number of Products: <strong>{{currentModel?.numberOfProducts}}</strong></p>
+      <p>Number of Products: <strong>{{currentModel?.products?.length}}</strong></p>
       <p>Camera Refresh Rate: <strong>30 seconds</strong></p>
     </div>
     <div class="col-12 pt-3">
@@ -87,7 +87,7 @@
               </mat-label>
               <mat-select formControlName="typeId">
                 <mat-option [value]="null"></mat-option>
-                <mat-option *ngFor="let model of modelTypes" [value]="model.typeId">{{model.typeName}}</mat-option>
+                <mat-option *ngFor="let model of modelTypes" [value]="model.modelType.systemId">{{model.modelType.name}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

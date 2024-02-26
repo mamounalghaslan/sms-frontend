@@ -1,10 +1,13 @@
+import {Product} from "./Product";
+import {NotificationStatusType} from "./NotificationStatusType";
+import {NotificationErrorType} from "./NotificationErrorType";
 
 export interface Notification {
 
   systemId: number;
-  productName: string;
-  errorType: string;
-  shelf: string;
-  section: string;
+  product: Product;
+  notificationErrorType: NotificationErrorType;
+  statusType: NotificationStatusType;
+  location: string;
 
 }

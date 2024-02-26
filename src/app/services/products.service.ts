@@ -10,10 +10,10 @@ export class ProductsService {
 
   getProducts(): Product[] {
     return [
-      {systemId: 1, name: 'product name 1', shelf: '12', section: 'A', images: []},
-      {systemId: 2, name: 'product name 2', shelf: '15', section: 'B', images: []},
-      {systemId: 3, name: 'product name 3', shelf: '7', section: 'C', images: []},
-      {systemId: 4, name: 'product name 4', shelf: '12', section: 'D', images: []}
+      {systemId: 1, name: 'product name 1', location: 'A12', productImages: []},
+      {systemId: 2, name: 'product name 2', location: 'B15', productImages: []},
+      {systemId: 3, name: 'product name 3', location: 'C7', productImages: []},
+      {systemId: 4, name: 'product name 4', location: 'DA12', productImages: []}
     ];
   }
 

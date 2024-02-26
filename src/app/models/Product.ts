@@ -1,9 +1,10 @@
+import {ProductImage} from "./ProductImage";
+
 export interface Product {
 
   systemId: number;
   name: string;
-  shelf: string;
-  section: string;
-  images: string[];
+  location: string;
+  productImages: ProductImage[];
 
 }

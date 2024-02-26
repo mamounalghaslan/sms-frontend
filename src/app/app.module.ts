@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {LoginComponent} from "./components/login/login.component";
 import {AppComponent} from "./app.component";
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -27,6 +27,7 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {ProductsComponent} from "./components/products/products.component";
 import {EmployeesComponent} from './components/employees/employees.component';
 import {ModelComponent} from "./components/model/model.component";
+import {HttpClientModule} from "@angular/common/http";
 
 const routes = [
   {path: '', component: LoginComponent},
@@ -41,6 +42,7 @@ const routes = [
   imports: [
     CommonModule,
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     FormsModule,

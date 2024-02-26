@@ -1,14 +1,14 @@
+import {CameraStatusType} from "./CameraStatusType";
+import {CameraReferenceImage} from "./CameraReferenceImage";
 
 export interface Camera {
 
   systemId: number;
-  name: string;
   ipAddress: string;
-  port: number;
-  status: string;
-  shelf: string;
-  section: string;
+  location: string;
   username: string;
   password: string;
+  cameraStatusType: CameraStatusType;
+  cameraReferenceImage: CameraReferenceImage;
 
 }

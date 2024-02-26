@@ -4,7 +4,8 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Camera} from "../../models/Camera";
 import {CamerasService} from "../../services/cameras.service";
 
-const ipAddressPattern = '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$';
+// regex for ip address with port
+const ipAddressWithPortPattern = '/^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(?::(?:[0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$/\n';
 
 @Component({
   selector: 'app-cameras',
@@ -12,16 +13,12 @@ const ipAddressPattern = '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$';
 })
 export class CamerasComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'status', 'ipAddress', 'port', 'section', 'shelf', 'actions'];
+  displayedColumns: string[] = ['systemId', 'cameraStatusType', 'ipAddress', 'location', 'actions'];
   dataSource: Camera[] = [];
 
   public newCameraForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    ipAddress: ['', [Validators.required, Validators.pattern(ipAddressPattern)]],
-    port: ['', [Validators.required, Validators.min(0), Validators.max(65535)]],
-    status: [''],
-    shelf: ['', Validators.required],
-    section: ['', Validators.required],
+    ipAddress: ['', [Validators.required, Validators.pattern(ipAddressWithPortPattern)]],
+    location: ['', Validators.required],
     username: ['', Validators.required],
     password: ['', Validators.required]
   });
@@ -36,7 +33,9 @@ export class CamerasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = this.service.getCameras();
+    this.service.getCameras().subscribe((cameras: Camera[]) => {
+      this.dataSource = cameras;
+    });
   }
 
   public openNewCameraTemplate() {
@@ -49,4 +48,5 @@ export class CamerasComponent implements OnInit {
   saveNewCamera() {
 
   }
+
 }

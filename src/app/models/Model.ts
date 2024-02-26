@@ -1,12 +1,10 @@
 import {Product} from "./Product";
+import {ModelType} from "./ModelType";
 
 export interface Model {
 
   systemId: number;
-  name: string;
-  typeId: number;
-  typeName: string;
-  numberOfProducts: number;
+  modelType: ModelType;
   creationDate: Date;
   products: Product[];
 
