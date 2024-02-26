@@ -8,14 +8,21 @@ import {Observable} from "rxjs";
 })
 export class CamerasService {
 
-  private camerasUrl = 'https://localhost:8080/api/cameras';
+  private camerasUrl = 'http://localhost:8080/api/cameras';
 
   constructor(private http: HttpClient) {
-
   }
 
   getCameras(): Observable<Camera[]> {
     return this.http.get<Camera[]>(this.camerasUrl + '/allCameras');
+  }
+
+  addCamera(camera: Camera): Observable<null> {
+    return this.http.post<null>(this.camerasUrl + '/addNewCamera', camera);
+  }
+
+  deleteCamera(systemId: number): Observable<null> {
+    return this.http.delete<null>(this.camerasUrl + '/' + systemId);
   }
 
 }
