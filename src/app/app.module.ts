@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
@@ -39,31 +39,32 @@ const routes = [
 ]
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes),
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    MatListModule,
-    MatGridList,
-    MatGridTile
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        HttpClientModule,
+        RouterModule.forRoot(routes),
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatCheckboxModule,
+        MatSidenavModule,
+        MatListModule,
+        MatGridList,
+        MatGridTile,
+        NgOptimizedImage
+    ],
   declarations: [
     AppComponent,
     LoginComponent,

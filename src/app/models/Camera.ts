@@ -1,14 +1,17 @@
 import {CameraStatusType} from "./CameraStatusType";
-import {CameraReferenceImage} from "./CameraReferenceImage";
 
 export interface Camera {
 
-  systemId: number;
+  systemId: number | null;
+  cameraStatusType: CameraStatusType | undefined;
+
   ipAddress: string;
   location: string;
   username: string;
   password: string;
-  cameraStatusType: CameraStatusType;
-  cameraReferenceImage: CameraReferenceImage;
+
+  referenceImagePath: string | null;
+  referenceImageFileBase64: string | null;
+  referenceImageCaptureDate: Date | null;
 
 }

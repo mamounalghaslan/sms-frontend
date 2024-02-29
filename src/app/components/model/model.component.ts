@@ -31,9 +31,6 @@ export class ModelComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentModel = this.service.getCurrentModel();
-    this.existingModels = this.service.getExistingModels();
-    this.modelTypes = this.service.getModelTypes();
   }
 
   public openNewModelTemplate() {
@@ -44,6 +41,5 @@ export class ModelComponent implements OnInit {
   }
 
   submitNewModel() {
-    this.service.addNewModel(this.newModelForm.value);
   }
 }

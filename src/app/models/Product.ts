@@ -1,10 +1,8 @@
-import {ProductImage} from "./ProductImage";
 
 export interface Product {
 
-  systemId: number;
+  systemId: number | null;
+
   name: string;
-  location: string;
-  productImages: ProductImage[];
 
 }

@@ -41,8 +41,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let camera">
-        <button mat-button color="primary" *ngIf="camera.cameraStatusType.systemId==1">View Feed</button>
-        <button mat-button color="primary" *ngIf="camera.cameraStatusType.systemId==2">Reconnect</button>
+        <button mat-button color="primary" *ngIf="camera.cameraStatusTypeId==1">View Feed</button>
+        <button mat-button color="primary" *ngIf="camera.cameraStatusTypeId==2">Reconnect</button>
+        <button mat-button color="primary" (click)="openManageReferenceImage(camera)">Reference Image</button>
         <button mat-button color="warn" (click)="deleteCamera(camera.systemId)">Delete</button>
       </td>
     </ng-container>
@@ -98,11 +99,54 @@
           </div>
           <div class="col-12">
             <div class="align-right-bottom">
-              <button mat-raised-button color="primary" (click)="addNewCamera()">Submit</button>
+              <button mat-raised-button color="primary"
+                      (click)="addNewCamera()" [disabled]="newCameraForm.invalid">Submit</button>
             </div>
           </div>
         </div>
       </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #referenceImageTemplate>
+  <mat-card style="min-width: 600px">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Manage Reference Image for Camera: {{selectedCamera?.systemId}}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-6">
+              <input #imageInput class="d-none" type="file" (change)="onFileSelected($event)" accept="image/*">
+              <button mat-raised-button color="primary" (click)="imageInput.click()">Upload Reference Image</button>
+              <div *ngIf="referenceImage">
+                <h2>New Reference Image</h2>
+                <img class="reference-image m-3"
+                     [src]="referenceImage" alt="Reference Image">
+              </div>
+            </div>
+            <div class="col-6">
+              <div *ngIf="selectedCamera?.referenceImagePath"
+                   class="align-content-center">
+                <h2>Current Reference Image: {{selectedCamera?.referenceImageCaptureDate | date:'short'}}</h2>
+                <img [src]="selectedCamera?.referenceImageFileBase64"
+                     class="reference-image m-3"
+                     alt="Reference Image">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="align-right-bottom">
+            <button mat-raised-button color="primary"
+                    (click)="saveReferenceImage()" [disabled]="!referenceImage">Submit</button>
+          </div>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 </ng-template>

@@ -10,16 +10,15 @@ import {ProductsService} from "../../services/products.service";
 })
 export class ProductsComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'shelf', 'section', 'actions'];
+  displayedColumns: string[] = ['name', 'images', 'actions'];
   dataSource: Product[] = [];
 
-  images: string[] = [];
+  imagesDisplayed: string[] = [];
+  imagesFiles: File[] = [];
 
   public productForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
-    shelf: ['', Validators.required],
-    section: ['', Validators.required],
-    images: [([])]
+    images: [([]), Validators.required]
   });
 
   @ViewChild('newProductTemplate', {static: false})
@@ -32,16 +31,34 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = this.service.getProducts();
+    this.getAllProducts();
+  }
+
+  private getAllProducts(): void {
+    this.service.getProducts().subscribe((products: Product[]) => {
+      this.dataSource = products;
+    });
   }
 
   saveProduct() {
+    if (this.productForm.valid) {
+      const product: Product = {
+        systemId: null,
+        name: this.productForm.value.name
+      };
 
+      this.service.saveNewProduct(product, this.imagesFiles).subscribe(()=>{
+        this.getAllProducts()
+      });
+      this.newProductTemplateRef?.close();
+    }
   }
 
   openAddNewProductTemplate() {
     this.productForm.reset();
-    this.images = [];
+    this.imagesDisplayed = [];
+    this.imagesFiles = [];
+
     this.newProductTemplateRef = this.dialog.open(this.newProductTemplate!, {
       width: 'auto',
       height: 'auto'
@@ -49,7 +66,6 @@ export class ProductsComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    this.images = [];
     if (event.target.files && event.target.files[0]) {
       const files = event.target.files;
 
@@ -57,16 +73,18 @@ export class ProductsComponent implements OnInit {
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
-          this.images.push(e.target.result);
+          this.imagesDisplayed.push(e.target.result);
         };
 
         reader.readAsDataURL(file);
+        this.imagesFiles.push(file);
       }
     }
   }
 
   removeImage(index: number) {
-    this.images.splice(index, 1); // Remove the image at the specified index
+    this.imagesDisplayed.splice(index, 1);
+    this.imagesFiles.splice(index, 1);
   }
 
 }

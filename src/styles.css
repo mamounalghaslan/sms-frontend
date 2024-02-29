@@ -91,3 +91,10 @@ mat-sidenav-container {
 .thumbnail:hover .remove-icon {
   display: block;
 }
+
+.reference-image {
+  position: relative;
+  width: 60%;
+  height: 60%;
+  object-fit: cover;
+}
