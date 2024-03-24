@@ -3,6 +3,7 @@ import {Product} from "../../models/Product";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductsService} from "../../services/products.service";
+import {ProductImage} from "../../models/ProductImage";
 
 @Component({
   selector: 'app-products',
@@ -16,9 +17,11 @@ export class ProductsComponent implements OnInit {
   imagesDisplayed: string[] = [];
   imagesFiles: File[] = [];
 
+  productsImages: ProductImage[] = [];
+
   public productForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
-    images: [([]), Validators.required]
+    images: [[], Validators.required]
   });
 
   @ViewChild('newProductTemplate', {static: false})
@@ -38,6 +41,9 @@ export class ProductsComponent implements OnInit {
     this.service.getProducts().subscribe((products: Product[]) => {
       this.dataSource = products;
     });
+    this.service.getProductsImages().subscribe((productsImages: ProductImage[]) => {
+      this.productsImages = productsImages;
+    });
   }
 
   saveProduct() {
@@ -47,8 +53,10 @@ export class ProductsComponent implements OnInit {
         name: this.productForm.value.name
       };
 
-      this.service.saveNewProduct(product, this.imagesFiles).subscribe(()=>{
-        this.getAllProducts()
+      this.service.addNewProduct(product).subscribe((newProduct: Product)=> {
+        this.service.addProductImages(newProduct.systemId!, this.imagesFiles).subscribe(() => {
+          this.getAllProducts();
+        })
       });
       this.newProductTemplateRef?.close();
     }
@@ -79,6 +87,7 @@ export class ProductsComponent implements OnInit {
         reader.readAsDataURL(file);
         this.imagesFiles.push(file);
       }
+      this.productForm.patchValue({images: this.imagesFiles});
     }
   }
 
@@ -87,4 +96,14 @@ export class ProductsComponent implements OnInit {
     this.imagesFiles.splice(index, 1);
   }
 
+  filterProductImages(productId: number): ProductImage[] {
+    return this.productsImages.filter((productImage: ProductImage) =>
+      productImage.product.systemId === productId);
+  }
+
+  deleteProduct(productId: number) {
+    this.service.deleteProduct(productId).subscribe(() => {
+      this.getAllProducts();
+    });
+  }
 }
