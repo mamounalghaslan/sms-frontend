@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {Product} from "../models/Product";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {ProductImage} from "../models/ProductImage";
 
 @Injectable({
   providedIn: 'root'
@@ -13,28 +12,22 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<Product[]> {
+  getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productsUrl + '/allProducts');
-  }
-
-  getProductsImages(): Observable<ProductImage[]> {
-    return this.http.get<ProductImage[]>(this.productsUrl + '/allProductsImages');
   }
 
   addNewProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(this.productsUrl + '/addNewProduct', product);
   }
 
-  addProductImages(productId: number, images: File[]): Observable<null> {
+  addProductDisplayImage(productId: number, imageFile: File): Observable<null> {
     const formData = new FormData();
-    images.forEach((image: File) => {
-      formData.append('imagesFiles', image);
-    });
-    return this.http.post<null>(this.productsUrl + '/' + productId + '/addProductImages', formData);
+    formData.append('imageFile', imageFile);
+    return this.http.post<null>(this.productsUrl + '/' + productId + '/addProductDisplayImage', formData);
   }
 
-  deleteProduct(productId: number): Observable<null> {
-    return this.http.delete<null>(this.productsUrl + '/' + productId);
+  deleteProduct(product: Product): Observable<null> {
+    return this.http.delete<null>(this.productsUrl + '/deleteProduct', {body: product});
   }
 
 }

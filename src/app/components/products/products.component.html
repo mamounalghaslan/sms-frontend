@@ -10,35 +10,31 @@
     </span>
   </mat-toolbar>
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
-
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Product </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="images">
-      <th mat-header-cell *matHeaderCellDef> Images </th>
-      <td mat-cell *matCellDef="let element">
-        <div class="thumbnails">
-          <div class="thumbnail" *ngFor="let productImage of filterProductImages(element.systemId)">
-            <img [src]="productImage.imageFileBase64" alt="">
+  <mat-grid-list cols="8" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let product of products">
+      <div class="card w-100 h-100">
+        <div class="card-header">{{product.name}}</div>
+        <div class="card-body">
+          <div>
+            <img [src]="product.displayImageFileBase64" class="h-100 w-100" alt="">
+            <button mat-button color="warn" (click)="deleteProduct(product)">Delete</button>
           </div>
         </div>
-      </td>
-    </ng-container>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngFor="let product of products">
+      <div class="card w-100 h-100">
+        <div class="card-header">{{product.name}}</div>
+        <div class="card-body">
+          <div>
+            <img [src]="product.displayImageFileBase64" class="h-100 w-100" alt="">
+            <button mat-button color="warn" (click)="deleteProduct(product)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-button color="warn" (click)="deleteProduct(element.systemId)">Delete</button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-  </table>
 </div>
 
 <ng-template #newProductTemplate>
@@ -57,16 +53,11 @@
             </mat-form-field>
           </div>
           <div class="col-12">
-            <input #imagesInput class="d-none" type="file" (change)="onFileSelected($event)" multiple accept="image/*">
-            <button mat-raised-button color="primary" (click)="imagesInput.click()">Upload Product Images</button>
+            <input #productDisplayImageInput class="d-none" type="file" (change)="onFileSelected($event)" accept="image/*">
+            <button mat-raised-button color="primary" (click)="productDisplayImageInput.click()">Upload Display Image</button>
           </div>
           <div class="col-12 mt-3 mb-3">
-            <div class="thumbnails">
-              <div class="thumbnail" *ngFor="let image of imagesDisplayed; let i = index">
-                <img [src]="image" alt="">
-                <div class="remove-icon" (click)="removeImage(i)">X</div>
-              </div>
-            </div>
+            <img [src]="newProductDisplayImage" alt="">
           </div>
           <div class="col-12">
             <div class="align-right">

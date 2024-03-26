@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {Camera} from "../models/Camera";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {CameraStatusType} from "../models/CameraStatusType";
 
 @Injectable({
   providedIn: 'root'
@@ -14,30 +13,20 @@ export class CamerasService {
   constructor(private http: HttpClient) {
   }
 
-  getCameras(): Observable<Camera[]> {
+  getAllCameras(): Observable<Camera[]> {
     return this.http.get<Camera[]>(this.camerasUrl + '/allCameras');
   }
 
-  addCamera(camera: Camera): Observable<null> {
+  getCamera(systemId: number): Observable<Camera> {
+    return this.http.get<Camera>(this.camerasUrl + '/' + systemId);
+  }
+
+  addNewCamera(camera: Camera): Observable<null> {
     return this.http.post<null>(this.camerasUrl + '/addNewCamera', camera);
   }
 
-  deleteCamera(systemId: number): Observable<null> {
-    return this.http.delete<null>(this.camerasUrl + '/' + systemId);
-  }
-
-  getStatusTypes(): Observable<CameraStatusType[]> {
-    return this.http.get<CameraStatusType[]>(this.camerasUrl + '/allCameraStatusTypes');
-  }
-
-  updateCameraReferenceImage(cameraId: number, referenceImage: File): Observable<null> {
-    const formData = new FormData();
-    formData.append('imageFile', referenceImage);
-    return this.http.post<null>(this.camerasUrl + '/updateCameraReferenceImage/' + cameraId, formData, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
+  deleteCamera(cameraId: number): Observable<null> {
+    return this.http.delete<null>(this.camerasUrl + '/' + cameraId);
   }
 
 }

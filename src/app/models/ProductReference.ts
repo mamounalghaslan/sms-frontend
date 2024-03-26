@@ -1,13 +1,12 @@
-import {Camera} from "./Camera";
 import {Product} from "./Product";
+import {ShelfImage} from "./ShelfImage";
 
 export interface ProductReference {
 
   systemId: number;
-
-  camera: Camera;
+  shelfImage: ShelfImage;
   product: Product;
-
+  imagePath: string;
   xCenter: number;
   yCenter: number;
   width: number;

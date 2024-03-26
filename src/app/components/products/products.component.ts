@@ -3,7 +3,6 @@ import {Product} from "../../models/Product";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductsService} from "../../services/products.service";
-import {ProductImage} from "../../models/ProductImage";
 
 @Component({
   selector: 'app-products',
@@ -11,17 +10,14 @@ import {ProductImage} from "../../models/ProductImage";
 })
 export class ProductsComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'images', 'actions'];
-  dataSource: Product[] = [];
+  displayedColumns: string[] = ['name', 'actions'];
+  products: Product[] = [];
 
-  imagesDisplayed: string[] = [];
-  imagesFiles: File[] = [];
-
-  productsImages: ProductImage[] = [];
+  newProductDisplayImage: File | undefined;
 
   public productForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
-    images: [[], Validators.required]
+    image: [undefined, Validators.required]
   });
 
   @ViewChild('newProductTemplate', {static: false})
@@ -38,11 +34,8 @@ export class ProductsComponent implements OnInit {
   }
 
   private getAllProducts(): void {
-    this.service.getProducts().subscribe((products: Product[]) => {
-      this.dataSource = products;
-    });
-    this.service.getProductsImages().subscribe((productsImages: ProductImage[]) => {
-      this.productsImages = productsImages;
+    this.service.getAllProducts().subscribe((products: Product[]) => {
+      this.products = products;
     });
   }
 
@@ -50,11 +43,13 @@ export class ProductsComponent implements OnInit {
     if (this.productForm.valid) {
       const product: Product = {
         systemId: null,
-        name: this.productForm.value.name
+        name: this.productForm.value.name,
+        displayImagePath: null,
+        displayImageFileBase64: null
       };
 
       this.service.addNewProduct(product).subscribe((newProduct: Product)=> {
-        this.service.addProductImages(newProduct.systemId!, this.imagesFiles).subscribe(() => {
+        this.service.addProductDisplayImage(newProduct.systemId!, this.productForm.value.image).subscribe(() => {
           this.getAllProducts();
         })
       });
@@ -64,8 +59,7 @@ export class ProductsComponent implements OnInit {
 
   openAddNewProductTemplate() {
     this.productForm.reset();
-    this.imagesDisplayed = [];
-    this.imagesFiles = [];
+    this.newProductDisplayImage = undefined;
 
     this.newProductTemplateRef = this.dialog.open(this.newProductTemplate!, {
       width: 'auto',
@@ -74,35 +68,29 @@ export class ProductsComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
+    this.newProductDisplayImage = undefined;
+    this.productForm.patchValue({image: undefined});
+
     if (event.target.files && event.target.files[0]) {
       const files = event.target.files;
 
       for (let file of files) {
+
+        this.productForm.patchValue({image: file});
+
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
-          this.imagesDisplayed.push(e.target.result);
+          this.newProductDisplayImage = e.target.result;
         };
 
         reader.readAsDataURL(file);
-        this.imagesFiles.push(file);
       }
-      this.productForm.patchValue({images: this.imagesFiles});
     }
   }
 
-  removeImage(index: number) {
-    this.imagesDisplayed.splice(index, 1);
-    this.imagesFiles.splice(index, 1);
-  }
-
-  filterProductImages(productId: number): ProductImage[] {
-    return this.productsImages.filter((productImage: ProductImage) =>
-      productImage.product.systemId === productId);
-  }
-
-  deleteProduct(productId: number) {
-    this.service.deleteProduct(productId).subscribe(() => {
+  deleteProduct(product: Product) {
+    this.service.deleteProduct(product).subscribe(() => {
       this.getAllProducts();
     });
   }

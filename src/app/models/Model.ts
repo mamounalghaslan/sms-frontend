@@ -4,7 +4,6 @@ export interface Model {
 
   systemId: number;
   modelType: ModelType;
-
   creationDate: Date;
 
 }

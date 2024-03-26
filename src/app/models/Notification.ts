@@ -8,7 +8,6 @@ export interface Notification {
   product: Product;
   errorType: NotificationErrorType;
   statusType: NotificationStatusType;
-
   location: string;
 
 }

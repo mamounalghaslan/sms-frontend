@@ -1,75 +1,39 @@
 import {NgModule} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {BrowserModule} from "@angular/platform-browser";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {LoginComponent} from "./components/login/login.component";
 import {AppComponent} from "./app.component";
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatButtonModule} from "@angular/material/button";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatInputModule} from "@angular/material/input";
-import {MatCardModule} from "@angular/material/card";
-import {MatMenuModule} from "@angular/material/menu";
-import {MatIconModule} from "@angular/material/icon";
-import {MatTableModule} from "@angular/material/table";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatSelectModule} from "@angular/material/select";
-import {MatOptionModule} from "@angular/material/core";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatListModule} from "@angular/material/list";
 import {NotificationsComponent} from "./components/notifications/notifications.component";
-import {CamerasComponent} from "./components/cameras/cameras.component";
-import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {ProductsComponent} from "./components/products/products.component";
 import {EmployeesComponent} from './components/employees/employees.component';
 import {ModelComponent} from "./components/model/model.component";
+import {SharedModule} from "./shared.module";
+import {BrowserModule} from "@angular/platform-browser";
 import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes = [
   {path: '', component: LoginComponent},
   {path: 'notifications', component: NotificationsComponent},
-  {path: 'cameras', component: CamerasComponent},
+  {path: 'cameras', loadChildren: () => import('./containers/cameras/cameras.module').then(m => m.CamerasModule)},
   {path: 'products', component: ProductsComponent},
   {path: 'employees', component: EmployeesComponent},
-  {path: 'model', component: ModelComponent}
+  {path: 'model', component: ModelComponent},
+  {path: '**', redirectTo: 'notifications'}
 ]
 
 @NgModule({
     imports: [
-        CommonModule,
-        BrowserModule,
-        HttpClientModule,
-        RouterModule.forRoot(routes),
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatToolbarModule,
-        MatInputModule,
-        MatCardModule,
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTableModule,
-        MatSlideToggleModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatCheckboxModule,
-        MatSidenavModule,
-        MatListModule,
-        MatGridList,
-        MatGridTile,
-        NgOptimizedImage
+      BrowserModule,
+      HttpClientModule,
+      BrowserAnimationsModule,
+      RouterModule.forRoot(routes),
+      SharedModule
     ],
   declarations: [
     AppComponent,
     LoginComponent,
     NotificationsComponent,
-    CamerasComponent,
     ProductsComponent,
     EmployeesComponent,
     ModelComponent
