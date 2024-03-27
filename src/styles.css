@@ -13,6 +13,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  min-width: 1600px;
 }
 
 body {
@@ -97,4 +98,10 @@ mat-sidenav-container {
   width: 60%;
   height: 60%;
   object-fit: cover;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -3,9 +3,11 @@ import {CamerasListingComponent} from "./cameras-listing/cameras-listing.compone
 import {SharedModule} from "../../shared.module";
 import {CamerasComponent} from "./cameras.component";
 import {RouterModule} from "@angular/router";
+import {CameraConsoleComponent} from "./camera-console/camera-console.component";
 
 const routes = [
   {path: 'cameras-listing', component: CamerasListingComponent},
+  {path: 'console/:cameraId', component: CameraConsoleComponent},
   {path: '**', redirectTo: 'cameras-listing'}
 ]
 
@@ -16,7 +18,8 @@ const routes = [
   ],
   declarations: [
     CamerasComponent,
-    CamerasListingComponent
+    CamerasListingComponent,
+    CameraConsoleComponent
   ]
 })
 export class CamerasModule {

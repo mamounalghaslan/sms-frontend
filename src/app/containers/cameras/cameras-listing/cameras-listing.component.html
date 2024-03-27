@@ -1,4 +1,4 @@
-<div class="container">
+<div>
 
   <mat-toolbar class="mb-3 shadow-sm">
     <span>All Cameras</span>
@@ -48,8 +48,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let camera">
-        <button mat-stroked-button color="primary" *ngIf="camera.cameraStatusType.systemId==2">Manage Reference</button>
-        <button mat-stroked-button color="warn" class="ms-3" (click)="deleteCamera(camera.systemId)">Delete</button>
+        <button mat-stroked-button color="primary"
+                (click)="openConsole(camera)">Console</button>
+        <button mat-stroked-button color="warn" class="ms-3" (click)="deleteCamera(camera)">Delete</button>
       </td>
     </ng-container>
 
@@ -71,7 +72,7 @@
       <form [formGroup]="newCameraForm">
         <div class="row">
           <div class="col-6">
-            <mat-form-field>
+            <mat-form-field class="w-100">
               <mat-label>
                 IP Address
               </mat-label>
@@ -79,7 +80,7 @@
             </mat-form-field>
           </div>
           <div class="col-6">
-            <mat-form-field>
+            <mat-form-field class="w-100">
               <mat-label>
                 Location
               </mat-label>
@@ -87,7 +88,7 @@
             </mat-form-field>
           </div>
           <div class="col-6">
-            <mat-form-field>
+            <mat-form-field class="w-100">
               <mat-label>
                 Username
               </mat-label>
@@ -95,7 +96,7 @@
             </mat-form-field>
           </div>
           <div class="col-6">
-            <mat-form-field>
+            <mat-form-field class="w-100">
               <mat-label>
                 Password
               </mat-label>

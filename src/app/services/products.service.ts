@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Product} from "../models/Product";
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {SnackbarMessage} from "../snackbar/snackbar-decorator";
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,23 @@ export class ProductsService {
     return this.http.post<Product>(this.productsUrl + '/addNewProduct', product);
   }
 
+  @SnackbarMessage(
+    'Product successfully added.',
+    'Error adding product.')
   addProductDisplayImage(productId: number, imageFile: File): Observable<null> {
+    const headers = new HttpHeaders({ 'X-Use-Snackbar': 'true' });
     const formData = new FormData();
     formData.append('imageFile', imageFile);
-    return this.http.post<null>(this.productsUrl + '/' + productId + '/addProductDisplayImage', formData);
+    return this.http.post<null>(
+      this.productsUrl + '/' + productId + '/addProductDisplayImage', formData, { headers });
   }
 
+  @SnackbarMessage(
+    'Product successfully deleted.',
+    'Error deleting product.')
   deleteProduct(product: Product): Observable<null> {
-    return this.http.delete<null>(this.productsUrl + '/deleteProduct', {body: product});
+    const headers = new HttpHeaders({ 'X-Use-Snackbar': 'true' });
+    return this.http.delete<null>(this.productsUrl + '/deleteProduct', {body: product, headers: headers});
   }
 
 }

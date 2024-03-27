@@ -1,0 +1,97 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm">
+    <span>Camera: {{camera?.systemId}}</span>
+    <h3 class="ms-3" [style]="getCameraStatusStyle(camera)">({{camera?.cameraStatusType?.description}})</h3>
+    <span class="toolbar-spacer"></span>
+    <span>
+      <button mat-raised-button class="add-button me-3" color="primary"
+              (click)="openCaptureNewImageTemplate()">
+        <mat-icon>add</mat-icon> Capture New Image
+      </button>
+      <button mat-raised-button class="add-button" color="primary"
+              [disabled]="cameraForm.pristine || cameraForm.invalid">
+        Save
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <div class="row" [formGroup]="cameraForm">
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>
+          IP Address
+        </mat-label>
+        <input matInput formControlName="ipAddress">
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>
+          Location
+        </mat-label>
+        <input matInput formControlName="location">
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>
+          Username
+        </mat-label>
+        <input matInput formControlName="username">
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>
+          Password
+        </mat-label>
+        <input matInput formControlName="password">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="cameraShelfImage">
+    <div class="col-6 text-center">
+      <img class="img-fluid h-75 w-75 m-3" [src]="cameraShelfImage.imageFileBase64" alt="">
+    </div>
+    <div class="col-6">
+      table
+    </div>
+  </div>
+
+</div>
+
+<ng-template #captureNewImageTemplate>
+  <mat-card style="width: 600px">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Capture New Image</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row" [formGroup]="newShelfImageForm">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <input #productDisplayImageInput class="d-none" type="file" (change)="onFileSelected($event)" accept="image/*">
+          <button mat-raised-button color="primary" class="w-100" (click)="productDisplayImageInput.click()">Upload Display Image</button>
+          <div class="checkbox-container">
+            <mat-checkbox formControlName="isReferenced">Set as Reference for this camera</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-12">
+          <div class="text-center">
+            <img class="img-fluid h-75 w-75 m-3" *ngIf="newShelfImage" [src]="newShelfImage" alt="">
+          </div>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-6">
+          <button mat-raised-button color="primary" class="w-100"
+                  (click)="submitNewImage()" [disabled]="newShelfImageForm.invalid">Submit</button>
+        </div>
+        <div class="col-3"></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

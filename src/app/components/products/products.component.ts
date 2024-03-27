@@ -10,7 +10,6 @@ import {ProductsService} from "../../services/products.service";
 })
 export class ProductsComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'actions'];
   products: Product[] = [];
 
   newProductDisplayImage: File | undefined;

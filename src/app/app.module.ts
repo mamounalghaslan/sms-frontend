@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {RouterModule} from "@angular/router";
 import {LoginComponent} from "./components/login/login.component";
 import {AppComponent} from "./app.component";
@@ -9,8 +9,9 @@ import {EmployeesComponent} from './components/employees/employees.component';
 import {ModelComponent} from "./components/model/model.component";
 import {SharedModule} from "./shared.module";
 import {BrowserModule} from "@angular/platform-browser";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SnackbarInterceptor} from "./snackbar/snackbar-interceptor";
 
 const routes = [
   {path: '', component: LoginComponent},
@@ -21,6 +22,18 @@ const routes = [
   {path: 'model', component: ModelComponent},
   {path: '**', redirectTo: 'notifications'}
 ]
+
+export class AppInjector {
+  private static injector: Injector;
+
+  static setInjector(injector: Injector) {
+    AppInjector.injector = injector;
+  }
+
+  static getInjector(): Injector {
+    return AppInjector.injector;
+  }
+}
 
 @NgModule({
     imports: [
@@ -42,7 +55,12 @@ const routes = [
     AppComponent
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {provide: HTTP_INTERCEPTORS, useClass: SnackbarInterceptor, multi: true}
   ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(injector: Injector) {
+    AppInjector.setInjector(injector);
+  }
+}

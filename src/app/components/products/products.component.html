@@ -1,6 +1,6 @@
-<div class="container">
+<div>
 
-  <mat-toolbar class="mb-3 shadow-sm">
+  <mat-toolbar class="mb-3 shadow-sm w-100">
     <span>Products</span>
     <span class="toolbar-spacer"></span>
     <span>
@@ -12,7 +12,7 @@
 
   <mat-grid-list cols="6" rowHeight="1:1">
     <mat-grid-tile *ngFor="let product of products">
-      <div class="card w-100 h-100">
+      <div class="card h-100 w-100">
         <div class="card-header">
           <div class="d-flex">
             <h4>{{product.name}}</h4>
@@ -24,15 +24,15 @@
           </span>
           </div>
         </div>
-        <div class="card-body">
-          <div>
-            <img [src]="product.displayImageFileBase64" alt="">
+        <div class="card-body h-100">
+          <div class="text-center w-100 h-100">
+            <img class="img-fluid h-75" style="max-height: 100%;" [src]="product.displayImageFileBase64" alt="">
           </div>
         </div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile *ngFor="let product of products">
-      <div class="card w-100 h-100">
+      <div class="card h-100 w-100">
         <div class="card-header">
           <div class="d-flex">
             <h4>{{product.name}}</h4>
@@ -44,9 +44,29 @@
           </span>
           </div>
         </div>
-        <div class="card-body">
-          <div>
-            <img [src]="product.displayImageFileBase64" alt="">
+        <div class="card-body h-100">
+          <div class="text-center w-100 h-100">
+            <img class="img-fluid h-75" style="max-height: 100%;" [src]="product.displayImageFileBase64" alt="">
+          </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngFor="let product of products">
+      <div class="card h-100 w-100">
+        <div class="card-header">
+          <div class="d-flex">
+            <h4>{{product.name}}</h4>
+            <span class="toolbar-spacer"></span>
+            <span>
+            <button mat-button class="btn-close" color="warn" (click)="deleteProduct(product)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+          </div>
+        </div>
+        <div class="card-body h-100">
+          <div class="text-center w-100 h-100">
+            <img class="img-fluid h-75" style="max-height: 100%;" [src]="product.displayImageFileBase64" alt="">
           </div>
         </div>
       </div>
@@ -65,17 +85,17 @@
     <mat-card-content>
       <form [formGroup]="productForm">
         <div class="row">
-          <div class="col-12">
-            <mat-form-field>
+          <div class="col-6">
+            <mat-form-field class="w-100">
               <input matInput placeholder="Product Name" formControlName="name">
             </mat-form-field>
-          </div>
-          <div class="col-12">
             <input #productDisplayImageInput class="d-none" type="file" (change)="onFileSelected($event)" accept="image/*">
-            <button mat-raised-button color="primary" (click)="productDisplayImageInput.click()">Upload Display Image</button>
+            <button mat-raised-button color="primary" class="w-100" (click)="productDisplayImageInput.click()">Upload Display Image</button>
           </div>
-          <div class="col-12 mt-3 mb-3">
-            <img [src]="newProductDisplayImage" alt="">
+          <div class="col-6">
+            <div class="text-center w-100 h-100">
+              <img class="img-fluid h-75" style="max-height: 75%;" [src]="newProductDisplayImage" alt="">
+            </div>
           </div>
           <div class="col-12">
             <div class="align-right">

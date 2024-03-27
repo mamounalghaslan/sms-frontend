@@ -8,8 +8,5 @@ export interface Camera {
   location: string;
   username: string;
   password: string;
-  referenceImagePath: string | null;
-  referenceImageFileBase64: string | null;
-  referenceImageCaptureDate: Date | null;
 
 }

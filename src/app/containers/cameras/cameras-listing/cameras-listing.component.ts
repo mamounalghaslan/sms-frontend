@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Camera} from "../../../models/Camera";
 import {CamerasService} from "../../../services/cameras.service";
+import {Router} from "@angular/router";
 
 // regex for ip address with port
 const ipAddressWithPortPattern = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):((6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[1-9])|0)$';
@@ -27,12 +28,10 @@ export class CamerasListingComponent implements OnInit {
   public newCameraTemplate: TemplateRef<any> | undefined;
   public newCameraTemplateRef: MatDialogRef<any> | undefined;
 
-  selectedCamera: Camera | undefined;
-  referenceImage: File | undefined;
-
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
-              private service: CamerasService) {
+              private service: CamerasService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -60,10 +59,7 @@ export class CamerasListingComponent implements OnInit {
       ipAddress: this.newCameraForm.value.ipAddress,
       location: this.newCameraForm.value.location,
       username: this.newCameraForm.value.username,
-      password: this.newCameraForm.value.password,
-      referenceImagePath: null,
-      referenceImageFileBase64: null,
-      referenceImageCaptureDate: new Date()
+      password: this.newCameraForm.value.password
     };
     this.service.addNewCamera(newCamera).subscribe(() => {
       this.newCameraTemplateRef?.close();
@@ -71,10 +67,14 @@ export class CamerasListingComponent implements OnInit {
     });
   }
 
-  deleteCamera(cameraId: number) {
-    this.service.deleteCamera(cameraId).subscribe(() => {
+  deleteCamera(camera: Camera) {
+    this.service.deleteCamera(camera).subscribe(() => {
       this.getAllCameras();
     });
+  }
+
+  openConsole(camera: Camera) {
+    this.router.navigate(['cameras/console/', camera.systemId]);
   }
 
 }
