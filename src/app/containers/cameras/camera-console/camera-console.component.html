@@ -51,14 +51,11 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="cameraShelfImage">
-    <div class="col-6 text-center">
-      <img class="img-fluid h-75 w-75 m-3" [src]="cameraShelfImage.imageFileBase64" alt="">
-    </div>
-    <div class="col-6">
-      table
-    </div>
-  </div>
+  <app-product-reference-annotation
+    *ngIf="cameraShelfImage"
+    [shelfImage]="cameraShelfImage"
+    [editable]="false">
+  </app-product-reference-annotation>
 
 </div>
 

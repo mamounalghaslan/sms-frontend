@@ -7,9 +7,9 @@ export interface ProductReference {
   shelfImage: ShelfImage;
   product: Product;
   imagePath: string;
-  xCenter: number;
-  yCenter: number;
-  width: number;
-  height: number;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
 
 }

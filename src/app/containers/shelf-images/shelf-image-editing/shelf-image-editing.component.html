@@ -1,0 +1,19 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm">
+    <span>Shelf Image: {{shelfImage?.systemId}}</span>
+    <span class="toolbar-spacer"></span>
+    <span>
+      <button mat-raised-button class="add-button" color="primary">
+        Save
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <app-product-reference-annotation
+    *ngIf="shelfImage"
+    [shelfImage]="shelfImage"
+    [editable]="true">
+  </app-product-reference-annotation>
+
+</div>

@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Camera} from "../../../models/Camera";
 import {CamerasService} from "../../../services/cameras.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -38,7 +38,8 @@ export class CameraConsoleComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private service: CamerasService,
               private fb: FormBuilder,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              public router: Router) {
   }
 
   ngOnInit() {
@@ -116,6 +117,10 @@ export class CameraConsoleComponent implements OnInit {
 
       this.captureNewImageTemplateRef?.close();
     }
+  }
+
+  openEditImage(): void {
+    this.router.navigate(['shelf-images/edit/', this.cameraShelfImage!.systemId]);
   }
 
 }

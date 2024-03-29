@@ -1,9 +1,10 @@
 import {NgModule} from "@angular/core";
 import {CamerasListingComponent} from "./cameras-listing/cameras-listing.component";
 import {SharedModule} from "../../shared.module";
-import {CamerasComponent} from "./cameras.component";
 import {RouterModule} from "@angular/router";
 import {CameraConsoleComponent} from "./camera-console/camera-console.component";
+import {ShelfImagesModule} from "../shelf-images/shelf-images.module";
+import {ProductReferenceAnnotationComponent} from "../../components/product-references/product-reference-annotation.component";
 
 const routes = [
   {path: 'cameras-listing', component: CamerasListingComponent},
@@ -14,10 +15,10 @@ const routes = [
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    ProductReferenceAnnotationComponent
   ],
   declarations: [
-    CamerasComponent,
     CamerasListingComponent,
     CameraConsoleComponent
   ]

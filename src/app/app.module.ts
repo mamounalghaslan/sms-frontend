@@ -12,14 +12,18 @@ import {BrowserModule} from "@angular/platform-browser";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackbarInterceptor} from "./snackbar/snackbar-interceptor";
+import {ShelfImagesListingComponent} from "./containers/shelf-images/shelf-images-listing/shelf-images-listing.component";
 
 const routes = [
   {path: '', component: LoginComponent},
   {path: 'notifications', component: NotificationsComponent},
-  {path: 'cameras', loadChildren: () => import('./containers/cameras/cameras.module').then(m => m.CamerasModule)},
+  {path: 'cameras', loadChildren: () =>
+      import('./containers/cameras/cameras.module').then(m => m.CamerasModule)},
   {path: 'products', component: ProductsComponent},
   {path: 'employees', component: EmployeesComponent},
   {path: 'model', component: ModelComponent},
+  {path: 'shelf-images', loadChildren: () =>
+      import('./containers/shelf-images/shelf-images.module').then(m => m.ShelfImagesModule)},
   {path: '**', redirectTo: 'notifications'}
 ]
 
