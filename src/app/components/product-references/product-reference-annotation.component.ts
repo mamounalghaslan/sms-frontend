@@ -1,5 +1,5 @@
 import {ShelfImage} from "../../models/ShelfImage";
-import {Component, Input, OnInit} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {ShelfImageService} from "../../services/shelf-image.service";
 import {ProductReference} from "../../models/ProductReference";
 import {SharedModule} from "../../shared.module";
@@ -23,14 +23,48 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   @Input()
   editable: boolean = false;
 
-  constructor(private service: ShelfImageService) {
+  @ViewChild('canvas')
+  canvas: ElementRef<HTMLCanvasElement> | undefined;
+
+  canvasContext: CanvasRenderingContext2D | null | undefined;
+
+  imageWidth: number = 640;
+  imageHeight: number = 640;
+
+  constructor(public service: ShelfImageService) {
   }
 
   ngOnInit() {
     this.service.getProductReferencesByShelfImage(this.shelfImage?.systemId!)
       .subscribe((productReferences: ProductReference[]) => {
-        this.productReferences = productReferences
+        this.productReferences = productReferences;
+        this.drawCanvas();
       });
+  }
+
+  private drawCanvas() {
+    const img = new Image();
+    img.onload = () => {
+      if (this.canvas) {
+        this.canvasContext = this.canvas.nativeElement.getContext('2d');
+        this.imageWidth = img.width;
+        this.imageHeight = img.height;
+        this.drawRectangles();
+      }
+    };
+    img.src = this.service.getImageLink('shelfImages', this.shelfImage?.systemId!, this.shelfImage?.imageFileName!);
+  }
+
+  private drawRectangles() {
+    this.productReferences.forEach(pr => {
+      if(this.canvasContext) {
+        this.canvasContext.beginPath();
+        this.canvasContext.strokeStyle = 'red';
+        this.canvasContext.lineWidth = 5;
+        this.canvasContext.rect(pr.x1, pr.y1, pr.x2 - pr.x1, pr.y2 - pr.y1);
+        this.canvasContext.stroke();
+      }
+    });
   }
 
 }

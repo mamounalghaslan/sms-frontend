@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
-              private service: ProductsService) {
+              public service: ProductsService) {
   }
 
   ngOnInit() {
@@ -43,8 +43,7 @@ export class ProductsComponent implements OnInit {
       const product: Product = {
         systemId: null,
         name: this.productForm.value.name,
-        displayImagePath: null,
-        displayImageFileBase64: null
+        imageFileName: null
       };
 
       this.service.addNewProduct(product).subscribe((newProduct: Product)=> {

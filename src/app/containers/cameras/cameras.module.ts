@@ -3,7 +3,6 @@ import {CamerasListingComponent} from "./cameras-listing/cameras-listing.compone
 import {SharedModule} from "../../shared.module";
 import {RouterModule} from "@angular/router";
 import {CameraConsoleComponent} from "./camera-console/camera-console.component";
-import {ShelfImagesModule} from "../shelf-images/shelf-images.module";
 import {ProductReferenceAnnotationComponent} from "../../components/product-references/product-reference-annotation.component";
 
 const routes = [

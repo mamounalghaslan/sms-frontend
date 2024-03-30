@@ -14,6 +14,7 @@ export class CamerasService {
 
   constructor(private http: HttpClient) {
   }
+
   getAllCameras(): Observable<Camera[]> {
     return this.http.get<Camera[]>(this.camerasUrl + '/allCameras');
   }

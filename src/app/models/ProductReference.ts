@@ -6,7 +6,7 @@ export interface ProductReference {
   systemId: number;
   shelfImage: ShelfImage;
   product: Product;
-  imagePath: string;
+  imageFileName: string;
   x1: number;
   y1: number;
   x2: number;

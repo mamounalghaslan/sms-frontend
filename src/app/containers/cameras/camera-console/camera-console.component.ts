@@ -100,8 +100,7 @@ export class CameraConsoleComponent implements OnInit {
         systemId: null,
         captureDate: new Date(),
         referencedCamera: this.newShelfImageForm.value.isReferenced? this.camera! : undefined,
-        imagePath: null,
-        imageFileBase64: null
+        imageFileName: null
       };
 
       this.service.addNewShelfImage(newShelfImage).subscribe(

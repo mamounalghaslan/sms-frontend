@@ -3,15 +3,18 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ShelfImage} from "../models/ShelfImage";
 import {ProductReference} from "../models/ProductReference";
+import {ImagesService} from "./ImagesService";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShelfImageService {
+export class ShelfImageService extends ImagesService {
 
   private shelfImagesUrl = 'http://localhost:8080/api/shelf-images';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   getAllShelfImages(): Observable<ShelfImage[]> {
     return this.http.get<ShelfImage[]>(this.shelfImagesUrl + '/allShelfImages');

@@ -1,12 +1,8 @@
 
-
 <div class="row">
-  <div class="col-6 text-center">
-    <div class="row">
-      <div class="col-12">
-        <img class="img-fluid m-3" [src]="shelfImage?.imageFileBase64" alt="">
-      </div>
-    </div>
+  <div class="col-6" style="height: 640px">
+    <img style="position: absolute" [src]="service.getImageLink('shelfImages', this.shelfImage?.systemId!, this.shelfImage?.imageFileName!)">
+    <canvas #canvas style="position: absolute; z-index: 1000" width="{{imageWidth}}" height="{{imageHeight}}" ></canvas>
   </div>
   <div class="col-6">
 

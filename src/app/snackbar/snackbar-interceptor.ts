@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse, HttpHeaders
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -15,7 +15,15 @@ export class SnackbarInterceptor implements HttpInterceptor {
 
     const useSnackbar = req.headers.get('X-Use-Snackbar');
 
-    return next.handle(req)
+    const httpRequest = req.clone({
+      headers: new HttpHeaders({
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
+      })
+    });
+
+    return next.handle(httpRequest)
       .pipe(
         tap(event => {
           if (event instanceof HttpResponse && useSnackbar) {

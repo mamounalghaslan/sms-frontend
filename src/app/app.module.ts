@@ -12,7 +12,6 @@ import {BrowserModule} from "@angular/platform-browser";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackbarInterceptor} from "./snackbar/snackbar-interceptor";
-import {ShelfImagesListingComponent} from "./containers/shelf-images/shelf-images-listing/shelf-images-listing.component";
 
 const routes = [
   {path: '', component: LoginComponent},

@@ -3,15 +3,18 @@ import {Product} from "../models/Product";
 import {Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {SnackbarMessage} from "../snackbar/snackbar-decorator";
+import {ImagesService} from "./ImagesService";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
+export class ProductsService extends ImagesService {
 
   private productsUrl = 'http://localhost:8080/api/products';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productsUrl + '/allProducts');
