@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Product} from "../models/Product";
 import {Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {SnackbarMessage} from "../snackbar/snackbar-decorator";
+import {SnackbarMessage} from "../progress-components/snackbar/snackbar-decorator";
 import {ImagesService} from "./ImagesService";
 
 @Injectable({

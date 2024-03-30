@@ -1,6 +1,6 @@
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import {AppInjector} from "../app.module";
+import {AppInjector} from "../../app.module";
 import {SnackbarService} from "./snackbar-service";
 
 export function SnackbarMessage(successMessage: string, errorMessage: string) {

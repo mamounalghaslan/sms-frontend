@@ -1,5 +1,5 @@
 import {ShelfImage} from "../../models/ShelfImage";
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {ShelfImageService} from "../../services/shelf-image.service";
 import {ProductReference} from "../../models/ProductReference";
 import {SharedModule} from "../../shared.module";
@@ -13,6 +13,8 @@ import {SharedModule} from "../../shared.module";
   templateUrl: './product-reference-annotation.component.html'
 })
 export class ProductReferenceAnnotationComponent implements OnInit {
+
+  // TODO: Get the image dimenstions from the backend
 
   displayedColumns: string[] = ['product', 'x1', 'y1', 'x2', 'y2'];
   productReferences: ProductReference[] = [];
@@ -38,29 +40,17 @@ export class ProductReferenceAnnotationComponent implements OnInit {
     this.service.getProductReferencesByShelfImage(this.shelfImage?.systemId!)
       .subscribe((productReferences: ProductReference[]) => {
         this.productReferences = productReferences;
-        this.drawCanvas();
+        this.drawRectangles();
       });
   }
 
-  private drawCanvas() {
-    const img = new Image();
-    img.onload = () => {
-      if (this.canvas) {
-        this.canvasContext = this.canvas.nativeElement.getContext('2d');
-        this.imageWidth = img.width;
-        this.imageHeight = img.height;
-        this.drawRectangles();
-      }
-    };
-    img.src = this.service.getImageLink('shelfImages', this.shelfImage?.systemId!, this.shelfImage?.imageFileName!);
-  }
-
   private drawRectangles() {
+    this.canvasContext = this.canvas?.nativeElement.getContext('2d');
     this.productReferences.forEach(pr => {
       if(this.canvasContext) {
         this.canvasContext.beginPath();
         this.canvasContext.strokeStyle = 'red';
-        this.canvasContext.lineWidth = 5;
+        this.canvasContext.lineWidth = 2;
         this.canvasContext.rect(pr.x1, pr.y1, pr.x2 - pr.x1, pr.y2 - pr.y1);
         this.canvasContext.stroke();
       }

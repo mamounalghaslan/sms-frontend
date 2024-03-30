@@ -109,3 +109,7 @@ mat-sidenav-container {
 .tight-table tr {
   height: 25px;
 }
+
+.dark-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}

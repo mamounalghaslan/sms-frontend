@@ -11,7 +11,11 @@ import {SharedModule} from "./shared.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {SnackbarInterceptor} from "./snackbar/snackbar-interceptor";
+import {SnackbarInterceptor} from "./progress-components/snackbar/snackbar-interceptor";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {OverlayModule} from "@angular/cdk/overlay";
+import {SpinnerOverlayInterceptor} from "./progress-components/spinner/spinner-overlay.interceptor";
+import {SpinnerComponent} from "./progress-components/spinner/spinner.component";
 
 const routes = [
   {path: '', component: LoginComponent},
@@ -44,7 +48,9 @@ export class AppInjector {
       HttpClientModule,
       BrowserAnimationsModule,
       RouterModule.forRoot(routes),
-      SharedModule
+      SharedModule,
+      MatProgressSpinnerModule,
+      OverlayModule
     ],
   declarations: [
     AppComponent,
@@ -52,14 +58,16 @@ export class AppInjector {
     NotificationsComponent,
     ProductsComponent,
     EmployeesComponent,
-    ModelComponent
+    ModelComponent,
+    SpinnerComponent
   ],
   bootstrap: [
     AppComponent
   ],
   providers: [
     provideAnimationsAsync(),
-    {provide: HTTP_INTERCEPTORS, useClass: SnackbarInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: SnackbarInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: SpinnerOverlayInterceptor, multi: true}
   ]
 })
 export class AppModule {
