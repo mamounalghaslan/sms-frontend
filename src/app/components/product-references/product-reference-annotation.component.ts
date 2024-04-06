@@ -4,6 +4,8 @@ import {ShelfImageService} from "../../services/shelf-image.service";
 import {ProductReference} from "../../models/ProductReference";
 import {SharedModule} from "../../shared.module";
 
+import {Annotorious} from '@recogito/annotorious';
+
 @Component({
   standalone: true,
   selector: 'app-product-reference-annotation',
@@ -25,13 +27,10 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   @Input()
   editable: boolean = false;
 
-  @ViewChild('canvas')
-  canvas: ElementRef<HTMLCanvasElement> | undefined;
+  @ViewChild('refImage')
+  refImage: ElementRef | undefined;
 
-  canvasContext: CanvasRenderingContext2D | null | undefined;
-
-  imageWidth: number = 640;
-  imageHeight: number = 640;
+  annotorious: any;
 
   constructor(public service: ShelfImageService) {
   }
@@ -40,21 +39,53 @@ export class ProductReferenceAnnotationComponent implements OnInit {
     this.service.getProductReferencesByShelfImage(this.shelfImage?.systemId!)
       .subscribe((productReferences: ProductReference[]) => {
         this.productReferences = productReferences;
-        this.drawRectangles();
       });
+    setTimeout(() => {
+      this.annotorious = new Annotorious({
+        image: this.refImage?.nativeElement
+      });
+      for(let productReference of this.productReferences) {
+        this.annotorious.addAnnotation(this.createAnnotation(productReference));
+      }
+    }, 50);
   }
 
-  private drawRectangles() {
-    this.canvasContext = this.canvas?.nativeElement.getContext('2d');
-    this.productReferences.forEach(pr => {
-      if(this.canvasContext) {
-        this.canvasContext.beginPath();
-        this.canvasContext.strokeStyle = 'red';
-        this.canvasContext.lineWidth = 2;
-        this.canvasContext.rect(pr.x1, pr.y1, pr.x2 - pr.x1, pr.y2 - pr.y1);
-        this.canvasContext.stroke();
-      }
-    });
+  createAnnotation(productReference: ProductReference) {
+
+    console.log(productReference);
+
+    // Extract the coordinates
+    const x1 = productReference.x1;
+    const y1 = productReference.y1;
+    const x2 = productReference.x2;
+    const y2 = productReference.y2;
+
+    // Calculate width and height from the coordinates
+    const width = x2 - x1;
+    const height = y2 - y1;
+
+    // Construct the annotation object
+    return {
+      "@context": "http://www.w3.org/ns/anno.jsonld",
+      "type": "Annotation",
+      "body": [
+        {
+          "type": "TextualBody",
+          "value": "Enter your annotation text here",
+          "purpose": "commenting"
+        }
+      ],
+      "target": {
+        "source": "",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": `xywh=pixel:${x1},${y1},${width},${height}`
+        }
+      },
+      "id": productReference.systemId
+    };
   }
+
 
 }
