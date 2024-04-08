@@ -20,6 +20,8 @@ export class ProductReferenceAnnotationComponent implements OnInit {
 
   displayedColumns: string[] = ['product', 'x1', 'y1', 'x2', 'y2'];
   productReferences: ProductReference[] = [];
+  hoveredProductReference: ProductReference | undefined;
+  selectedProductReference: ProductReference | undefined;
 
   @Input()
   shelfImage: ShelfImage | undefined;
@@ -42,8 +44,18 @@ export class ProductReferenceAnnotationComponent implements OnInit {
       });
     setTimeout(() => {
       this.annotorious = new Annotorious({
-        image: this.refImage?.nativeElement
+        image: this.refImage?.nativeElement,
+        disabledEditor: true,
+        crosshair: true
       });
+      this.annotorious.on('mouseEnterAnnotation', (annotation: any) => {
+        this.hoveredProductReference = this.productReferences.find(
+          (productReference: ProductReference) => productReference.systemId === annotation.id);
+      })
+      this.annotorious.on('clickAnnotation', (annotation: any) => {
+        this.selectedProductReference = this.productReferences.find(
+          (productReference: ProductReference) => productReference.systemId === annotation.id);
+      })
       for(let productReference of this.productReferences) {
         this.annotorious.addAnnotation(this.createAnnotation(productReference));
       }
@@ -51,8 +63,6 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   }
 
   createAnnotation(productReference: ProductReference) {
-
-    console.log(productReference);
 
     // Extract the coordinates
     const x1 = productReference.x1;
@@ -87,5 +97,18 @@ export class ProductReferenceAnnotationComponent implements OnInit {
     };
   }
 
+  styleTableRow(productReference: ProductReference) {
+    if(productReference === this.selectedProductReference) {
+      return {
+        'background-color': 'lightblue'
+      }
+    }
+    if(productReference === this.hoveredProductReference) {
+      return {
+        'background-color': 'aliceblue'
+      }
+    }
+    return {};
+  }
 
 }
