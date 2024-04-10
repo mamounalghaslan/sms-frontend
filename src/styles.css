@@ -13,7 +13,7 @@
 html, body {
   height: 100%;
   width: 100%;
-  min-width: 1600px;
+  min-width: 1200px;
 }
 
 body {
@@ -114,9 +114,9 @@ mat-sidenav-container {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.r6o-editor {
-  display: none;
-}
+/*.r6o-editor {*/
+/*  display: none;*/
+/*}*/
 
 .a9s-annotation.selected .a9s-inner {
   stroke: yellow !important;
@@ -124,4 +124,8 @@ mat-sidenav-container {
 
 .a9s-annotation.selected .a9s-outer {
   stroke: yellow !important;
+}
+
+.r6o-widget {
+  display: none !important;
 }

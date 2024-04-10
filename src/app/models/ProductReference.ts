@@ -4,9 +4,9 @@ import {ShelfImage} from "./ShelfImage";
 export interface ProductReference {
 
   systemId: number;
-  shelfImage: ShelfImage;
-  product: Product;
-  imageFileName: string;
+  shelfImage: ShelfImage | undefined;
+  product: Product | undefined;
+  imageFileName: string | undefined;
   x1: number;
   y1: number;
   x2: number;

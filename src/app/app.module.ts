@@ -43,15 +43,15 @@ export class AppInjector {
 }
 
 @NgModule({
-    imports: [
-      BrowserModule,
-      HttpClientModule,
-      BrowserAnimationsModule,
-      RouterModule.forRoot(routes),
-      SharedModule,
-      MatProgressSpinnerModule,
-      OverlayModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    RouterModule.forRoot(routes),
+    SharedModule,
+    MatProgressSpinnerModule,
+    OverlayModule
+  ],
   declarations: [
     AppComponent,
     LoginComponent,
