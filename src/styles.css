@@ -114,9 +114,11 @@ mat-sidenav-container {
   background: rgba(0, 0, 0, 0.5);
 }
 
-/*.r6o-editor {*/
-/*  display: none;*/
-/*}*/
+.non-editable {
+  .r6o-editor {
+    display: none;
+  }
+}
 
 .a9s-annotation.selected .a9s-inner {
   stroke: yellow !important;

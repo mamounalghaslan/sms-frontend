@@ -6,6 +6,10 @@
     <span class="toolbar-spacer"></span>
     <span>
       <button mat-raised-button class="add-button me-3" color="primary"
+              (click)="openEditImage()">
+        <mat-icon>edit</mat-icon> Edit Reference Image
+      </button>
+      <button mat-raised-button class="add-button me-3" color="primary"
               (click)="openCaptureNewImageTemplate()">
         <mat-icon>add</mat-icon> Capture New Image
       </button>

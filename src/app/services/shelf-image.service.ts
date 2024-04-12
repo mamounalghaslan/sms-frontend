@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {ShelfImage} from "../models/ShelfImage";
 import {ProductReference} from "../models/ProductReference";
 import {ImagesService} from "./ImagesService";
+import {ProductReferenceParameters} from "../models/ProductReferenceParameters";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,11 @@ export class ShelfImageService extends ImagesService {
 
   getShelfImage(shelfImageId: number): Observable<ShelfImage> {
     return this.http.get<ShelfImage>(this.shelfImagesUrl + '/' + shelfImageId);
+  }
+
+  updateShelfImage(shelfImageId: number, productReferenceParameters: ProductReferenceParameters): Observable<null> {
+    return this.http.post<null>(
+      this.shelfImagesUrl + '/updateProductReferences', productReferenceParameters);
   }
 
 }

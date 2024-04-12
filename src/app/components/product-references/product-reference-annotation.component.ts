@@ -1,5 +1,5 @@
 import {ShelfImage} from "../../models/ShelfImage";
-import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import {ShelfImageService} from "../../services/shelf-image.service";
 import {ProductReference} from "../../models/ProductReference";
 import {SharedModule} from "../../shared.module";
@@ -7,6 +7,10 @@ import {SharedModule} from "../../shared.module";
 import {Annotorious} from '@recogito/annotorious';
 import {ImageLoadedDirective} from "../../directives/image-loaded.directive";
 import {Observable} from "rxjs";
+import {ProductReferenceParameters} from "../../models/ProductReferenceParameters";
+import {Product} from "../../models/Product";
+import {ProductsService} from "../../services/products.service";
+import {FormControl} from "@angular/forms";
 
 @Component({
   standalone: true,
@@ -26,9 +30,11 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   deletedProductReferences: ProductReference[] = [];
 
   hoveredProductReferenceId: number = 0;
-  selectedProductReferenceId: number = 0;
+  selectedProductReference: ProductReference | undefined;
+  selectedProductReferenceIsUpdated: boolean = false;
 
   productReferencesObservable: Observable<ProductReference[]> | undefined;
+
 
   @Input()
   shelfImage: ShelfImage | undefined;
@@ -36,26 +42,90 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   @Input()
   editable: boolean = false;
 
+  @Output()
+  onProductReferenceParametersChange = new EventEmitter<ProductReferenceParameters>();
+
   @ViewChild('refImage')
   refImage: ElementRef | undefined;
+
+  productsList: Product[] = [];
+  filteredProductsList: Product[] = [];
+  productSelectionControl: FormControl<Product | null> = new FormControl(null);
+
+  @ViewChild('productInput')
+  input: ElementRef<HTMLInputElement> | undefined;
 
   annotorious: any;
 
   newProductReferenceId = -1;
 
-  constructor(public service: ShelfImageService) {
+
+  constructor(public shelfImageService: ShelfImageService,
+              public productsService: ProductsService) {
   }
 
   ngOnInit() {
     this.productReferencesObservable =
-      this.service.getProductReferencesByShelfImage(this.shelfImage?.systemId!);
+      this.shelfImageService.getProductReferencesByShelfImage(this.shelfImage?.systemId!);
+
+    this.productsService.getAllProducts().subscribe((products: Product[]) => {
+      this.productsList = products;
+      this.filteredProductsList = this.productsList.slice();
+    });
+  }
+
+  emitChanges() {
+    this.onProductReferenceParametersChange.emit({
+      inserts: this.productReferences,
+      updates: this.newProductReferences,
+      deletes: this.deletedProductReferences
+    });
+  }
+
+  filterProducts(): void {
+    const filterValue = this.input?.nativeElement.value.toLowerCase() as string;
+    this.filteredProductsList = this.productsList.filter(
+      product => product.name.toLowerCase().includes(filterValue));
+  }
+
+  displayProduct(product: Product): string {
+    return product && product.name ? product.name : '';
+  }
+
+  setProduct() {
+
+    const product = this.productSelectionControl.value?
+      this.productSelectionControl.value: undefined;
+
+    if(this.selectedProductReference) {
+
+      this.selectedProductReference.product = product;
+
+      // just to update selectedProductReferenceIsUpdated, returned value ignored
+      this.findProductReference(this.selectedProductReference.systemId);
+
+      if(!this.selectedProductReferenceIsUpdated) {
+
+        this.productReferences = this.productReferences.filter(
+          (productReference: ProductReference) =>
+            productReference.systemId !== this.selectedProductReference?.systemId);
+
+        this.newProductReferences.unshift(this.selectedProductReference);
+        this.newProductReferences = [...this.newProductReferences];
+
+      }
+
+      this.emitChanges();
+    }
+
   }
 
   initializeAnnotorious(): void {
 
     this.annotorious = new Annotorious({
       image: this.refImage?.nativeElement,
-      handleRadius: 4
+      handleRadius: 4,
+      readOnly: !this.editable
     });
 
     this.annotorious.on('mouseEnterAnnotation', (annotation: any) => {
@@ -67,53 +137,79 @@ export class ProductReferenceAnnotationComponent implements OnInit {
     });
 
     this.annotorious.on('clickAnnotation', (annotation: any) => {
-      this.selectedProductReferenceId = annotation.id;
+      this.selectedProductReference = this.findProductReference(annotation.id);
+      this.productSelectionControl.setValue(
+        this.selectedProductReference?.product? this.selectedProductReference?.product: null);
     });
 
     this.annotorious.on('cancelSelected', () => {
-      this.selectedProductReferenceId = 0;
+      this.selectedProductReference = undefined;
     });
 
     this.annotorious.on('changeSelected', (selection: any) => {
-      this.selectedProductReferenceId = selection.id;
+      this.selectedProductReference = this.findProductReference(selection.id);
+      this.productSelectionControl.setValue(
+        this.selectedProductReference?.product? this.selectedProductReference?.product: null);
+    });
+
+    this.annotorious.on('createSelection', (selection: any) => {
+
+      const coordinates = this.getCoordinates(selection);
+
+      const newProductReference: ProductReference = {
+        systemId: this.newProductReferenceId--,
+        product: undefined,
+        shelfImage: this.shelfImage,
+        imageFileName: undefined,
+        x1: coordinates.x1,
+        y1: coordinates.y1,
+        x2: coordinates.x2,
+        y2: coordinates.y2
+      };
+
+      // add the new product reference to the list at the beginning
+      this.newProductReferences.unshift(newProductReference);
+      // create a new array reference to refresh the data table
+      this.newProductReferences = [...this.newProductReferences];
+
+      this.annotorious.addAnnotation(this.createAnnotation(newProductReference));
+      this.annotorious.cancelSelected();
+
+      this.annotorious.selectAnnotation(newProductReference.systemId);
+      this.selectedProductReference = this.findProductReference(newProductReference.systemId);
+
+
+      this.emitChanges();
+
     });
 
     this.annotorious.on('updateAnnotation', (selection: any) => {
 
       const coordinates = this.getCoordinates(selection);
 
-      let isUdapted = false;
-
-      let productReference = this.productReferences.find(
-        (productReference: ProductReference) => productReference.systemId === selection.id);
-
-      if(!productReference) {
-        isUdapted = true;
-        productReference = this.newProductReferences.find(
-          (productReference: ProductReference) => productReference.systemId === selection.id);
-      }
+      const productReference = this.findProductReference(selection.id);
 
       if(productReference) {
+
         productReference.x1 = coordinates.x1;
         productReference.y1 = coordinates.y1;
         productReference.x2 = coordinates.x2;
         productReference.y2 = coordinates.y2;
-      } else {
-        // something weird happened
-        return;
-      }
 
-      // if it hasn't been updated before
-      if(!isUdapted) {
+        if(!this.selectedProductReferenceIsUpdated) {
 
-        this.productReferences = this.productReferences.filter(
-          (productReference: ProductReference) => productReference.systemId !== selection.id);
-        this.newProductReferences.push(productReference);
-        this.newProductReferences = [...this.newProductReferences];
+          this.productReferences = this.productReferences.filter(
+            (productReference: ProductReference) => productReference.systemId !== selection.id);
+          this.newProductReferences.unshift(productReference);
+          this.newProductReferences = [...this.newProductReferences];
+
+        }
 
       }
 
-      this.selectedProductReferenceId = selection.id;
+      this.selectedProductReference = productReference;
+
+      this.emitChanges();
 
     });
 
@@ -143,35 +239,14 @@ export class ProductReferenceAnnotationComponent implements OnInit {
 
       if(productReference && productReference.systemId > 0) {
 
-        this.deletedProductReferences.push(productReference);
+        this.deletedProductReferences.unshift(productReference);
         this.deletedProductReferences = [...this.deletedProductReferences];
 
       }
 
-    });
+      this.selectedProductReference = undefined;
 
-    this.annotorious.on('createSelection', (selection: any) => {
-
-      const coordinates = this.getCoordinates(selection);
-
-      const newProductReference: ProductReference = {
-        systemId: this.newProductReferenceId--,
-        product: undefined,
-        shelfImage: this.shelfImage,
-        imageFileName: undefined,
-        x1: coordinates.x1,
-        y1: coordinates.y1,
-        x2: coordinates.x2,
-        y2: coordinates.y2
-      };
-
-      // add the new product reference to the list at the beginning
-      this.newProductReferences.unshift(newProductReference);
-      // create a new array reference to refresh the data table
-      this.newProductReferences = [...this.newProductReferences];
-
-      this.annotorious.addAnnotation(this.createAnnotation(newProductReference));
-      this.annotorious.cancelSelected();
+      this.emitChanges();
 
     });
 
@@ -182,6 +257,26 @@ export class ProductReferenceAnnotationComponent implements OnInit {
         this.annotorious.addAnnotation(this.createAnnotation(productReference));
       }
     });
+
+  }
+
+  findProductReference(systemId: number): ProductReference | undefined {
+
+    this.selectedProductReferenceIsUpdated = false;
+
+    let productReference = this.productReferences.find(
+      (productReference: ProductReference) => productReference.systemId === systemId);
+
+    if(!productReference) {
+
+      this.selectedProductReferenceIsUpdated = true;
+
+      productReference = this.newProductReferences.find(
+        (productReference: ProductReference) => productReference.systemId === systemId);
+
+    }
+
+    return productReference;
 
   }
 
@@ -231,7 +326,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   }
 
   styleTableRow(productReference: ProductReference) {
-    if(productReference.systemId === this.selectedProductReferenceId) {
+    if(productReference.systemId === this.selectedProductReference?.systemId) {
       return {
         'background-color': 'lightblue'
       }

@@ -16,6 +16,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
     MatListModule,
     MatGridList,
     MatGridTile,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatAutocompleteModule
   ],
   exports: [
     CommonModule,
@@ -60,7 +62,8 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
     MatListModule,
     MatGridList,
     MatGridTile,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatAutocompleteModule
   ]
 })
 export class SharedModule {

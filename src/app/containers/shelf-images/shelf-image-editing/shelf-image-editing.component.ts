@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ShelfImageService} from "../../../services/shelf-image.service";
 import {ShelfImage} from "../../../models/ShelfImage";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-notifications',
@@ -10,10 +11,17 @@ import {ActivatedRoute} from "@angular/router";
 export class ShelfImageEditingComponent implements OnInit {
 
   displayedColumns: string[] = ['systemId', 'captureDate', 'referencedCameraSystemId', 'actions'];
+
   shelfImage: ShelfImage | undefined;
 
-  constructor(private service: ShelfImageService,
-              private route: ActivatedRoute) {
+  public productReferenceParametersForm = this.fb.group({
+    productReferenceParameters: [undefined, Validators.required]
+  });
+
+  constructor(private fb: FormBuilder,
+              private service: ShelfImageService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -23,15 +31,22 @@ export class ShelfImageEditingComponent implements OnInit {
       });
   }
 
-  private dataURItoBlob(dataURI: string): Blob {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], {type: mimeString});
+  openCameraConsole() {
+    this.router.navigate(['cameras/console/', this.shelfImage?.referencedCamera?.systemId]);
+  }
+
+  productReferenceParametersChanged(parameters: any) {
+    this.productReferenceParametersForm.patchValue({
+      productReferenceParameters: parameters
+    });
+  }
+
+  save() {
+    this.service.updateShelfImage(
+      this.shelfImage?.systemId!, this.productReferenceParametersForm.value['productReferenceParameters']!)
+      .subscribe(() => {
+        window.location.reload();
+    });
   }
 
 }
