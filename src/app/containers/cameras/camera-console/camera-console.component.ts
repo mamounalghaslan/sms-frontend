@@ -5,6 +5,8 @@ import {CamerasService} from "../../../services/cameras.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ShelfImage} from "../../../models/ShelfImage";
+import {AppInjector} from "../../../app.module";
+import {SnackbarService} from "../../../progress-components/snackbar/snackbar-service";
 
 const ipAddressWithPortPattern = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):((6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[1-9])|0)$';
 
@@ -13,6 +15,8 @@ const ipAddressWithPortPattern = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3
   templateUrl: './camera-console.component.html'
 })
 export class CameraConsoleComponent implements OnInit {
+
+  snackbarService = AppInjector.getInjector().get(SnackbarService);
 
   camera: Camera | undefined;
   cameraShelfImage: ShelfImage | undefined;
@@ -105,13 +109,21 @@ export class CameraConsoleComponent implements OnInit {
 
       this.service.addNewShelfImage(newShelfImage).subscribe(
         (newShelfImage: ShelfImage) => {
+
         this.service.addShelfImageFile(newShelfImage.systemId!, this.newShelfImageForm.value.image).subscribe(
           () => {
-          this.service.getCameraReferenceImage(this.camera!.systemId!).subscribe(
-            (image: ShelfImage) => {
-            this.cameraShelfImage = image;
-          });
+
+            if(this.newShelfImageForm.value.isReferenced) {
+
+              this.snackbarService.show('New Reference added. Refreshing page...', 'Ok');
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+
+            }
+
         });
+
       });
 
       this.captureNewImageTemplateRef?.close();

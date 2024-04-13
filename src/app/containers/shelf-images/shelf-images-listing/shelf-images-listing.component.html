@@ -13,7 +13,7 @@
 
     <ng-container matColumnDef="captureDate">
       <th mat-header-cell *matHeaderCellDef> Capture Date </th>
-      <td mat-cell *matCellDef="let shelfImage"> {{shelfImage.captureDate | date:'short'}} </td>
+      <td mat-cell *matCellDef="let shelfImage"> {{shelfImage.captureDate | date:'short':'+0300'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="referencedCameraSystemId">
