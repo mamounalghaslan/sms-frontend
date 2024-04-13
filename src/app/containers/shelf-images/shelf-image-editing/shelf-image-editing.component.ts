@@ -45,7 +45,9 @@ export class ShelfImageEditingComponent implements OnInit {
     this.service.updateShelfImage(
       this.shelfImage?.systemId!, this.productReferenceParametersForm.value['productReferenceParameters']!)
       .subscribe(() => {
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000)
     });
   }
 

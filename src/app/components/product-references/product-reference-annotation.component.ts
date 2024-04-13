@@ -72,6 +72,13 @@ export class ProductReferenceAnnotationComponent implements OnInit {
       this.productsList = products;
       this.filteredProductsList = this.productsList.slice();
     });
+
+    this.productSelectionControl.valueChanges.subscribe(() => {
+      this.setProduct();
+    });
+
+    this.productSelectionControl.reset();
+    this.productSelectionControl.disable({emitEvent: false});
   }
 
   emitChanges() {
@@ -115,6 +122,10 @@ export class ProductReferenceAnnotationComponent implements OnInit {
 
       }
 
+      console.log(this.annotorious.getAnnotationById(this.selectedProductReference.systemId));
+
+      this.annotorious.getAnnotationById(this.selectedProductReference.systemId).product = product;
+
       this.emitChanges();
     }
 
@@ -125,31 +136,50 @@ export class ProductReferenceAnnotationComponent implements OnInit {
     this.annotorious = new Annotorious({
       image: this.refImage?.nativeElement,
       handleRadius: 4,
-      readOnly: !this.editable
+      readOnly: !this.editable,
+      formatter: this.formatAnnotation
     });
 
     this.annotorious.on('mouseEnterAnnotation', (annotation: any) => {
+
       this.hoveredProductReferenceId = annotation.id;
+
     });
 
     this.annotorious.on('mouseLeaveAnnotation', () => {
+
       this.hoveredProductReferenceId = 0;
+
     });
 
     this.annotorious.on('clickAnnotation', (annotation: any) => {
+
       this.selectedProductReference = this.findProductReference(annotation.id);
+      this.productSelectionControl.enable({emitEvent: false});
+
       this.productSelectionControl.setValue(
-        this.selectedProductReference?.product? this.selectedProductReference?.product: null);
+        this.selectedProductReference?.product? this.selectedProductReference?.product: null,
+        {emitEvent: false});
+
     });
 
     this.annotorious.on('cancelSelected', () => {
+
       this.selectedProductReference = undefined;
+      this.productSelectionControl.reset();
+      this.productSelectionControl.disable({emitEvent: false});
+
     });
 
     this.annotorious.on('changeSelected', (selection: any) => {
+
       this.selectedProductReference = this.findProductReference(selection.id);
+      this.productSelectionControl.enable({emitEvent: false});
+
       this.productSelectionControl.setValue(
-        this.selectedProductReference?.product? this.selectedProductReference?.product: null);
+        this.selectedProductReference?.product? this.selectedProductReference?.product: null,
+        {emitEvent: false});
+
     });
 
     this.annotorious.on('createSelection', (selection: any) => {
@@ -167,16 +197,15 @@ export class ProductReferenceAnnotationComponent implements OnInit {
         y2: coordinates.y2
       };
 
-      // add the new product reference to the list at the beginning
       this.newProductReferences.unshift(newProductReference);
-      // create a new array reference to refresh the data table
       this.newProductReferences = [...this.newProductReferences];
 
       this.annotorious.addAnnotation(this.createAnnotation(newProductReference));
       this.annotorious.cancelSelected();
-
       this.annotorious.selectAnnotation(newProductReference.systemId);
+
       this.selectedProductReference = this.findProductReference(newProductReference.systemId);
+      this.productSelectionControl.enable({emitEvent: false});
 
 
       this.emitChanges();
@@ -208,6 +237,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
       }
 
       this.selectedProductReference = productReference;
+      this.productSelectionControl.enable({emitEvent: false});
 
       this.emitChanges();
 
@@ -245,6 +275,8 @@ export class ProductReferenceAnnotationComponent implements OnInit {
       }
 
       this.selectedProductReference = undefined;
+      this.productSelectionControl.reset();
+      this.productSelectionControl.disable({emitEvent: false});
 
       this.emitChanges();
 
@@ -310,7 +342,8 @@ export class ProductReferenceAnnotationComponent implements OnInit {
           "value": `xywh=pixel:${x1},${y1},${width},${height}`
         }
       },
-      "id": productReference.systemId
+      "id": productReference.systemId,
+      "product": productReference.product
     };
   }
 
@@ -337,6 +370,32 @@ export class ProductReferenceAnnotationComponent implements OnInit {
       }
     }
     return {};
+  }
+
+  formatAnnotation(annotation: any): any {
+    if(annotation.underlying.id > 0) {
+      // current
+      if(annotation.underlying.product) {
+        return {
+          'style': 'stroke-width:2; stroke: green'
+        }
+      } else {
+        return {
+          'style': 'stroke-width:2; stroke: red'
+        }
+      }
+    } else {
+      // new
+      if(annotation.underlying.product) {
+        return {
+          'style': 'stroke-width:2; stroke: blue'
+        }
+      } else {
+        return {
+          'style': 'stroke-width:2; stroke: yellow'
+        }
+      }
+    }
   }
 
 }

@@ -1,7 +1,10 @@
 <div>
 
   <mat-toolbar class="mb-3 shadow-sm w-100">
-    <span>Products</span>
+    <div>Products</div>
+    <mat-form-field subscriptSizing="dynamic" class="ms-3">
+      <input matInput placeholder="Search Products" (keyup)="filterProducts($event)">
+    </mat-form-field>
     <span class="toolbar-spacer"></span>
     <span>
       <button mat-raised-button class="add-button" color="primary" (click)="openAddNewProductTemplate()">
@@ -10,66 +13,25 @@
     </span>
   </mat-toolbar>
 
-  <mat-grid-list cols="6" rowHeight="1:1">
-    <mat-grid-tile *ngFor="let product of products">
+  <mat-grid-list cols="5" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let product of filteredProducts">
       <div class="card h-100 w-100">
         <div class="card-header">
           <div class="d-flex">
             <h4>{{product.name}}</h4>
             <span class="toolbar-spacer"></span>
             <span>
-            <button mat-button class="btn-close" color="warn" (click)="deleteProduct(product)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </span>
+              <button mat-mini-fab class="btn-close mat-elevation-z0" color="warn" (click)="deleteProduct(product)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
           </div>
         </div>
-        <div class="card-body h-100">
-          <div class="text-center w-100 h-100">
-            <img class="img-fluid h-75" style="max-height: 100%;"
-                 [src]="service.getImageLink('productsDisplayImages', product.systemId!, product.imageFileName!)" alt="">
-          </div>
-        </div>
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile *ngFor="let product of products">
-      <div class="card h-100 w-100">
-        <div class="card-header">
-          <div class="d-flex">
-            <h4>{{product.name}}</h4>
-            <span class="toolbar-spacer"></span>
-            <span>
-            <button mat-button class="btn-close" color="warn" (click)="deleteProduct(product)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </span>
-          </div>
-        </div>
-        <div class="card-body h-100">
-          <div class="text-center w-100 h-100">
-            <img class="img-fluid h-75" style="max-height: 100%;"
-                 [src]="service.getImageLink('productsDisplayImages', product.systemId!, product.imageFileName!)" alt="">
-          </div>
-        </div>
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile *ngFor="let product of products">
-      <div class="card h-100 w-100">
-        <div class="card-header">
-          <div class="d-flex">
-            <h4>{{product.name}}</h4>
-            <span class="toolbar-spacer"></span>
-            <span>
-            <button mat-button class="btn-close" color="warn" (click)="deleteProduct(product)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </span>
-          </div>
-        </div>
-        <div class="card-body h-100">
-          <div class="text-center w-100 h-100">
-            <img class="img-fluid h-75" style="max-height: 100%;"
-                 [src]="service.getImageLink('productsDisplayImages', product.systemId!, product.imageFileName!)" alt="">
+        <div class="card-body p-1">
+          <div class="text-center">
+            <img class="img-fluid" style="height: 175px; max-height: 100%;"
+                 [src]="service.getImageLink('productsDisplayImages',
+                  product.systemId!, product.imageFileName!)" alt="">
           </div>
         </div>
       </div>

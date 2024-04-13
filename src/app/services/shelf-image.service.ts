@@ -5,6 +5,7 @@ import {ShelfImage} from "../models/ShelfImage";
 import {ProductReference} from "../models/ProductReference";
 import {ImagesService} from "./ImagesService";
 import {ProductReferenceParameters} from "../models/ProductReferenceParameters";
+import {SnackbarMessage} from "../progress-components/snackbar/snackbar-decorator";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,9 @@ export class ShelfImageService extends ImagesService {
     return this.http.get<ShelfImage>(this.shelfImagesUrl + '/' + shelfImageId);
   }
 
+  @SnackbarMessage(
+    'Shelf Image successfully updated. Refreshing page...',
+    'Error updating Shelf Image.')
   updateShelfImage(shelfImageId: number, productReferenceParameters: ProductReferenceParameters): Observable<null> {
     return this.http.post<null>(
       this.shelfImagesUrl + '/updateProductReferences', productReferenceParameters);

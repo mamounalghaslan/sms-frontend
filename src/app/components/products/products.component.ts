@@ -11,6 +11,7 @@ import {ProductsService} from "../../services/products.service";
 export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
+  filteredProducts: Product[] = [];
 
   newProductDisplayImage: File | undefined;
 
@@ -35,6 +36,15 @@ export class ProductsComponent implements OnInit {
   private getAllProducts(): void {
     this.service.getAllProducts().subscribe((products: Product[]) => {
       this.products = products;
+      this.filteredProducts = products.slice();
+    });
+  }
+
+  filterProducts(event: any) {
+    const filterValue = event.target.value.toLowerCase();
+
+    this.filteredProducts = this.products.filter(product => {
+      return product.name.toLowerCase().includes(filterValue);
     });
   }
 
