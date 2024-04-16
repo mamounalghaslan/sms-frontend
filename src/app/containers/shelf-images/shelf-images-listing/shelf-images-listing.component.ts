@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ShelfImageService} from "../../../services/shelf-image.service";
 import {ShelfImage} from "../../../models/ShelfImage";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialogComponent} from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-notifications',
@@ -13,7 +15,8 @@ export class ShelfImagesListingComponent implements OnInit {
   shelfImages: ShelfImage[] = [];
 
   constructor(private service: ShelfImageService,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -32,6 +35,19 @@ export class ShelfImagesListingComponent implements OnInit {
 
   openEditImageProducts(shelfImageId: number): void {
     this.router.navigate(['shelf-images/edit/', shelfImageId]);
+  }
+
+  deleteShelfImage(shelfImageId: number): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      width: '500px',
+      data: {message: 'Are you sure you want to delete shelf image ' + shelfImageId + '?'}
+    }).afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.service.deleteShelfImage(shelfImageId).subscribe(() => {
+            this.getAllShelfImages();
+          });
+        }
+    });
   }
 
 }
