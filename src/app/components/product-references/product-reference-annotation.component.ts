@@ -83,8 +83,8 @@ export class ProductReferenceAnnotationComponent implements OnInit {
 
   emitChanges() {
     this.onProductReferenceParametersChange.emit({
-      inserts: this.productReferences,
-      updates: this.newProductReferences,
+      inserts: this.newProductReferences.filter((pr: ProductReference) => pr.systemId < 0),
+      updates: this.newProductReferences.filter((pr: ProductReference) => pr.systemId > 0),
       deletes: this.deletedProductReferences
     });
   }

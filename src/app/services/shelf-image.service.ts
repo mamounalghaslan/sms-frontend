@@ -35,7 +35,7 @@ export class ShelfImageService extends ImagesService {
     'Error updating Shelf Image.')
   updateShelfImage(shelfImageId: number, productReferenceParameters: ProductReferenceParameters): Observable<null> {
     return this.http.post<null>(
-      this.shelfImagesUrl + '/updateProductReferences', productReferenceParameters);
+      this.shelfImagesUrl + '/updateProductReferences/' + shelfImageId, productReferenceParameters);
   }
 
 }
