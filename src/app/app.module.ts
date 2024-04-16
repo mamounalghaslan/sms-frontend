@@ -11,11 +11,11 @@ import {SharedModule} from "./shared.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {SnackbarInterceptor} from "./progress-components/snackbar/snackbar-interceptor";
+import {SnackbarInterceptor} from "./shared/snackbar/snackbar-interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {OverlayModule} from "@angular/cdk/overlay";
-import {SpinnerOverlayInterceptor} from "./progress-components/spinner/spinner-overlay.interceptor";
-import {SpinnerComponent} from "./progress-components/spinner/spinner.component";
+import {SpinnerOverlayInterceptor} from "./shared/spinner/spinner-overlay.interceptor";
+import {SpinnerComponent} from "./shared/spinner/spinner.component";
 
 const routes = [
   {path: '', component: LoginComponent},

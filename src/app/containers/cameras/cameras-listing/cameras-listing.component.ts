@@ -4,6 +4,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Camera} from "../../../models/Camera";
 import {CamerasService} from "../../../services/cameras.service";
 import {Router} from "@angular/router";
+import {ConfirmationDialogComponent} from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 
 // regex for ip address with port
 const ipAddressWithPortPattern = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):((6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[1-9])|0)$';
@@ -68,8 +69,15 @@ export class CamerasListingComponent implements OnInit {
   }
 
   deleteCamera(camera: Camera) {
-    this.service.deleteCamera(camera).subscribe(() => {
-      this.getAllCameras();
+    this.dialog.open(ConfirmationDialogComponent, {
+      width: '500px',
+      data: {message: 'Are you sure you want to delete Camera ' + camera.systemId + '?'}
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deleteCamera(camera).subscribe(() => {
+          this.getAllCameras();
+        });
+      }
     });
   }
 

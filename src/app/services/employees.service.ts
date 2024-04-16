@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
 import {Employee} from "../models/Employee";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeesService {
 
-  constructor() { }
+  private employeesUrl = 'http://localhost:8080/api/employees';
 
-  getEmployees(): Employee[] {
-    return [
-      {systemId: 1, name: 'employee 1', mobile: '0512345678'},
-      {systemId: 2, name: 'employee 2', mobile: '0512345678'},
-      {systemId: 3, name: 'employee 3', mobile: '0512345678'},
-      {systemId: 4, name: 'employee 4', mobile: '0512345678'}
-    ];
+  constructor(private http: HttpClient) { }
+
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(this.employeesUrl + '/allEmployees');
+  }
+
+  addNewEmployee(employee: Employee): Observable<null> {
+    return this.http.post<null>(this.employeesUrl + '/addNewEmployee', employee);
+  }
+
+  deleteEmployee(employee: Employee): Observable<null> {
+    return this.http.delete<null>(this.employeesUrl + '/deleteEmployee', {body: employee});
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Camera} from "../models/Camera";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {SnackbarMessage} from "../progress-components/snackbar/snackbar-decorator";
+import {SnackbarMessage} from "../shared/snackbar/snackbar-decorator";
 import {ShelfImage} from "../models/ShelfImage";
 
 @Injectable({

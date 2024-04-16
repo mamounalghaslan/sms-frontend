@@ -3,6 +3,7 @@ import {Product} from "../../models/Product";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductsService} from "../../services/products.service";
+import {ConfirmationDialogComponent} from "../../shared/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-products',
@@ -98,8 +99,15 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteProduct(product: Product) {
-    this.service.deleteProduct(product).subscribe(() => {
-      this.getAllProducts();
+    this.dialog.open(ConfirmationDialogComponent, {
+      width: '500px',
+      data: {message: 'Are you sure you want to delete "' + product.name + '"?'}
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deleteProduct(product).subscribe(() => {
+          this.getAllProducts();
+        });
+      }
     });
   }
 }

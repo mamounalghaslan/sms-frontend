@@ -5,7 +5,7 @@ import {ShelfImage} from "../models/ShelfImage";
 import {ProductReference} from "../models/ProductReference";
 import {ImagesService} from "./ImagesService";
 import {ProductReferenceParameters} from "../models/ProductReferenceParameters";
-import {SnackbarMessage} from "../progress-components/snackbar/snackbar-decorator";
+import {SnackbarMessage} from "../shared/snackbar/snackbar-decorator";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,13 @@ export class ShelfImageService extends ImagesService {
   updateShelfImage(shelfImageId: number, productReferenceParameters: ProductReferenceParameters): Observable<null> {
     return this.http.post<null>(
       this.shelfImagesUrl + '/updateProductReferences/' + shelfImageId, productReferenceParameters);
+  }
+
+  @SnackbarMessage(
+    'Shelf Image successfully deleted.',
+    'Error deleting Shelf Image.')
+  deleteShelfImage(shelfImageId: number): Observable<null> {
+    return this.http.delete<null>(this.shelfImagesUrl + '/' + shelfImageId);
   }
 
 }

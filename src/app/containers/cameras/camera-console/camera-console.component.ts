@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ShelfImage} from "../../../models/ShelfImage";
 import {AppInjector} from "../../../app.module";
-import {SnackbarService} from "../../../progress-components/snackbar/snackbar-service";
+import {SnackbarService} from "../../../shared/snackbar/snackbar-service";
 
 const ipAddressWithPortPattern = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):((6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[1-9])|0)$';
 
