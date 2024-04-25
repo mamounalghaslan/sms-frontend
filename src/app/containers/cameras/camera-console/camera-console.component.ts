@@ -102,6 +102,9 @@ export class CameraConsoleComponent implements OnInit {
     if(this.newShelfImageForm.valid) {
       const newShelfImage: ShelfImage = {
         systemId: null,
+        shelfImageType:
+          this.newShelfImageForm.value.isReferenced? {systemId: 2, description: 'Reference'}
+            : {systemId: 1, description: 'Training'},
         captureDate: new Date(),
         referencedCamera: this.newShelfImageForm.value.isReferenced? this.camera! : undefined,
         imageFileName: null
