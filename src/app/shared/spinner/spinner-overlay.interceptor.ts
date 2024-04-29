@@ -16,7 +16,6 @@ export class SpinnerOverlayInterceptor implements HttpInterceptor {
   private urlsNotToIntercept: string[] = [
     'api/models/inference-job-status',
     'api/models/training-job-status',
-    'api/models/model-types',
     'api/models/models'
   ]
 

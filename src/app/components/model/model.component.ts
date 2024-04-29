@@ -41,6 +41,9 @@ export class ModelComponent implements OnInit, OnDestroy {
     this.jobStatusSubscription = interval(5000).subscribe(() => {
       this.queryModelsInfo();
     });
+    this.service.getModelTypes().subscribe((modelTypes: ModelType[]) => {
+      this.modelTypes = modelTypes;
+    });
   }
 
   ngOnDestroy() {
@@ -53,9 +56,6 @@ export class ModelComponent implements OnInit, OnDestroy {
     });
     this.service.getTrainingJobStatus().subscribe((status: string) => {
       this.isTrainingJobRunning = status === 'true';
-    });
-    this.service.getModelTypes().subscribe((modelTypes: ModelType[]) => {
-      this.modelTypes = modelTypes;
     });
     this.service.getModels().subscribe((models: Model[]) => {
       this.models = models;
