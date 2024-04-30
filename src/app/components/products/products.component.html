@@ -10,6 +10,11 @@
       <button mat-raised-button class="add-button" color="primary" (click)="openAddNewProductTemplate()">
         <mat-icon>add</mat-icon> Add New Product
       </button>
+      <button mat-raised-button class="add-button ms-3" color="primary"
+              *ngIf="products.length === 0"
+              (click)="initializeProducts()">
+        <mat-icon>add</mat-icon> Initialize Products
+      </button>
     </span>
   </mat-toolbar>
 

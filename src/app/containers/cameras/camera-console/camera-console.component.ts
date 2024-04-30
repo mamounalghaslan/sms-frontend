@@ -57,7 +57,7 @@ export class CameraConsoleComponent implements OnInit {
   }
 
   public getCameraStatusStyle(camera: Camera | undefined): string {
-    if (camera?.cameraStatusType?.systemId === 1) {
+    if (camera?.cameraStatusType?.systemId === 2) {
       return 'color: red';
     }
     else  {

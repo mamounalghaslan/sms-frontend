@@ -1,0 +1,23 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm">
+    <span>Dashboard</span>
+  </mat-toolbar>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let camera of cameras">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>Camera {{camera.systemId}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div *ngFor="let shelfImage of getShelfImagesForCamera(camera)" class="mb-3">
+        <app-misplaced-product-reference [shelfImage]="shelfImage">
+
+        </app-misplaced-product-reference>
+        <hr>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>

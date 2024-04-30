@@ -6,6 +6,7 @@ import {ProductReference} from "../models/ProductReference";
 import {ImagesService} from "./ImagesService";
 import {ProductReferenceParameters} from "../models/ProductReferenceParameters";
 import {SnackbarMessage} from "../shared/snackbar/snackbar-decorator";
+import {MisplacedProductReference} from "../models/MisplacedProductReference";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,10 @@ export class ShelfImageService extends ImagesService {
     'Error deleting Shelf Image.')
   deleteShelfImage(shelfImageId: number): Observable<null> {
     return this.http.delete<null>(this.shelfImagesUrl + '/' + shelfImageId);
+  }
+
+  getMisplacedProductReferencesByShelfImage(shelfImageId: number): Observable<MisplacedProductReference[]> {
+    return this.http.get<MisplacedProductReference[]>(this.shelfImagesUrl + '/misplacedProductReferences/' + shelfImageId);
   }
 
 }

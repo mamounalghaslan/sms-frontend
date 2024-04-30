@@ -26,6 +26,8 @@ export class ShelfImagesListingComponent implements OnInit {
   private getAllShelfImages(): void {
     this.service.getAllShelfImages().subscribe((shelfImages: ShelfImage[]) => {
       this.shelfImages = shelfImages;
+      // remove shelfImages with status type 3
+      this.shelfImages = this.shelfImages.filter(shelfImage => shelfImage.shelfImageType?.systemId !== 3);
     });
   }
 

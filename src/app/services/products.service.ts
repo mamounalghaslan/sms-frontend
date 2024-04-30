@@ -43,4 +43,11 @@ export class ProductsService extends ImagesService {
     return this.http.delete<null>(this.productsUrl + '/deleteProduct', {body: product, headers: headers});
   }
 
+  @SnackbarMessage(
+    'Initialized products.',
+    'Error initializing products.')
+  initializeProducts(): Observable<null> {
+    return this.http.post<null>(this.productsUrl + '/initializeProducts', null);
+  }
+
 }

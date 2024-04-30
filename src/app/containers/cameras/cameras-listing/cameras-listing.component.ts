@@ -85,4 +85,10 @@ export class CamerasListingComponent implements OnInit {
     this.router.navigate(['cameras/console/', camera.systemId]);
   }
 
+  initializeCameras() {
+    this.service.initializeProducts().subscribe(() => {
+      this.getAllCameras();
+    });
+  }
+
 }

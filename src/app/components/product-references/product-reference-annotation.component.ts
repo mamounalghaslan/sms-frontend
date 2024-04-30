@@ -29,7 +29,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   newProductReferences: ProductReference[] = [];
   deletedProductReferences: ProductReference[] = [];
 
-  hoveredProductReferenceId: number = 0;
+  hoveredProductReferenceId = null;
   selectedProductReference: ProductReference | undefined;
   selectedProductReferenceIsUpdated: boolean = false;
 
@@ -84,7 +84,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   emitChanges() {
     this.onProductReferenceParametersChange.emit({
       inserts: this.newProductReferences.filter((pr: ProductReference) => pr.systemId < 0),
-      updates: this.newProductReferences.filter((pr: ProductReference) => pr.systemId > 0),
+      updates: this.newProductReferences.filter((pr: ProductReference) => pr.systemId >= 0),
       deletes: this.deletedProductReferences
     });
   }
@@ -148,7 +148,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
 
     this.annotorious.on('mouseLeaveAnnotation', () => {
 
-      this.hoveredProductReferenceId = 0;
+      this.hoveredProductReferenceId = null;
 
     });
 
@@ -267,7 +267,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
 
       }
 
-      if(productReference && productReference.systemId > 0) {
+      if(productReference && productReference.systemId >= 0) {
 
         this.deletedProductReferences.unshift(productReference);
         this.deletedProductReferences = [...this.deletedProductReferences];
@@ -373,7 +373,7 @@ export class ProductReferenceAnnotationComponent implements OnInit {
   }
 
   formatAnnotation(annotation: any): any {
-    if(annotation.underlying.id > 0) {
+    if(annotation.underlying.id >= 0) {
       // current
       if(annotation.underlying.product) {
         return {

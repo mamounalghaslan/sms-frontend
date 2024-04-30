@@ -17,6 +17,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatAccordion, MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   imports: [
@@ -40,7 +41,9 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatGridList,
     MatGridTile,
     NgOptimizedImage,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatAccordion,
+    MatExpansionModule
   ],
   exports: [
     CommonModule,
@@ -63,7 +66,9 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatGridList,
     MatGridTile,
     NgOptimizedImage,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatAccordion,
+    MatExpansionModule
   ]
 })
 export class SharedModule {

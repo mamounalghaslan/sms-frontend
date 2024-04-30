@@ -57,4 +57,12 @@ export class CamerasService {
     return this.http.post<null>(
       this.camerasUrl + '/addShelfImageFile/' + shelfImageId, formData, { headers });
   }
+
+  @SnackbarMessage(
+    'Initialized cameras.',
+    'Error initializing cameras.')
+  initializeProducts(): Observable<null> {
+    return this.http.post<null>(this.camerasUrl + '/initialize', null);
+  }
+
 }

@@ -110,4 +110,11 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
+
+  initializeProducts() {
+    this.service.initializeProducts().subscribe(() => {
+      this.getAllProducts();
+    });
+  }
+
 }

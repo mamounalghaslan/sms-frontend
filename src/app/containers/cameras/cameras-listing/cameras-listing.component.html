@@ -8,6 +8,10 @@
               (click)="openNewCameraTemplate()">
         <mat-icon>add</mat-icon> Add New Camera
       </button>
+      <button mat-raised-button class="add-button ms-3" color="primary"
+              (click)="initializeCameras()">
+        <mat-icon>add</mat-icon> Initialize Cameras
+      </button>
     </span>
   </mat-toolbar>
 
@@ -24,7 +28,7 @@
         <button mat-stroked-button color="primary"
                 class="mat-elevation-z0"
                 style="margin-left: 6px"
-                *ngIf="camera.cameraStatusType.systemId==1">
+                *ngIf="camera.cameraStatusType.systemId==2">
           <mat-icon style="margin-left: 6px">cached</mat-icon>
         </button>
       </td>
