@@ -1,0 +1,30 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm">
+    <span>Shelf Image: {{shelfImage?.systemId}}</span>
+    <h3 class="ms-3" *ngIf="shelfImage?.referencedCamera">
+      (Camera: {{shelfImage?.referencedCamera?.systemId}}, Location: {{shelfImage?.referencedCamera?.location}})
+    </h3>
+    <span class="toolbar-spacer"></span>
+    <span>
+      <button mat-raised-button class="add-button me-3" color="primary"
+              *ngIf="shelfImage?.referencedCamera"
+              (click)="openCameraConsole()">
+        <mat-icon>camera</mat-icon> Open Camera Console
+      </button>
+      <button mat-raised-button [disabled]="productReferenceParametersForm.invalid"
+              (click)="save()"
+              class="add-button" color="primary">
+        Save
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <app-product-reference-annotation
+    *ngIf="shelfImage"
+    [shelfImage]="shelfImage"
+    [editable]="true"
+    (onProductReferenceParametersChange)="productReferenceParametersChanged($event)">
+  </app-product-reference-annotation>
+
+</div>

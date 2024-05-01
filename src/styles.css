@@ -1,1 +1,133 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@font-face {
+  font-family: 'Lexend Variable';
+  src: url('assets/fonts/LexendDeca-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  min-width: 1487px;
+}
+
+body {
+  margin: 0;
+}
+
+.align-right {
+  text-align: right;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+mat-sidenav-container {
+  min-height: 350px;
+  border-bottom: #f5f5f5 1px solid;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.container-full-height {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-95-height {
+  height: 95%;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.align-right-bottom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 80%;
+}
+
+.thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.thumbnail {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+}
+
+.remove-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 0, 0, 0.7);
+  color: white;
+  cursor: pointer;
+  padding: 2px 5px;
+  display: none;
+}
+
+.thumbnail:hover .remove-icon {
+  display: block;
+}
+
+.reference-image {
+  position: relative;
+  width: 60%;
+  height: 60%;
+  object-fit: cover;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tight-table tr {
+  height: 25px;
+}
+
+.dark-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.non-editable {
+  .r6o-editor {
+    display: none;
+  }
+}
+
+.a9s-annotation.selected .a9s-inner {
+  stroke: ghostwhite !important;
+}
+
+.a9s-annotation.selected .a9s-outer {
+  stroke: ghostwhite !important;
+}
+
+.r6o-widget {
+  display: none !important;
+}

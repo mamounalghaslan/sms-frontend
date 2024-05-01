@@ -1,0 +1,80 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm w-100">
+    <div>Products</div>
+    <mat-form-field subscriptSizing="dynamic" class="ms-3">
+      <input matInput placeholder="Search Products" (keyup)="filterProducts($event)">
+    </mat-form-field>
+    <span class="toolbar-spacer"></span>
+    <span>
+      <button mat-raised-button class="add-button" color="primary" (click)="openAddNewProductTemplate()">
+        <mat-icon>add</mat-icon> Add New Product
+      </button>
+      <button mat-raised-button class="add-button ms-3" color="primary"
+              *ngIf="products.length === 0"
+              (click)="initializeProducts()">
+        <mat-icon>add</mat-icon> Initialize Products
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <mat-grid-list cols="5" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let product of filteredProducts">
+      <div class="card h-100 w-100">
+        <div class="card-header">
+          <div class="d-flex">
+            <h4>{{product.name}}</h4>
+            <span class="toolbar-spacer"></span>
+            <span>
+              <button mat-mini-fab class="btn-close mat-elevation-z0" color="warn" (click)="deleteProduct(product)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="text-center">
+            <img class="img-fluid" style="height: 175px; max-height: 100%;"
+                 [src]="service.getImageLink('productsDisplayImages',
+                  product.systemId!, product.imageFileName!)" alt="">
+          </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+</div>
+
+<ng-template #newProductTemplate>
+  <mat-card style="width: 600px">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>New Product</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="productForm">
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Product Name" formControlName="name">
+            </mat-form-field>
+            <input #productDisplayImageInput class="d-none" type="file" (change)="onFileSelected($event)" accept="image/*">
+            <button mat-raised-button color="primary" class="w-100" (click)="productDisplayImageInput.click()">Upload Display Image</button>
+          </div>
+          <div class="col-6">
+            <div class="text-center w-100 h-100">
+              <img class="img-fluid h-75" style="max-height: 75%;" [src]="newProductDisplayImage" alt="">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="align-right">
+              <button mat-raised-button color="primary"
+                      (click)="saveProduct()" [disabled]="productForm.invalid">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

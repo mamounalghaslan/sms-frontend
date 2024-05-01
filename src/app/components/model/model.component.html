@@ -1,0 +1,112 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm">
+    <span>Model Management</span>
+    <span class="toolbar-spacer"></span>
+    <span>
+      <h3>
+        Model training:
+        <span *ngIf="!isTrainingJobRunning" style="color: green">Ready</span>
+        <span *ngIf="isTrainingJobRunning" style="color: blue; font-style: italic">Training...</span>
+      </h3>
+    </span>
+    <span>
+      <button mat-raised-button class="add-button ms-3" color="primary"
+              *ngIf="!isTrainingJobRunning"
+              (click)="openNewModelTemplate()">
+        <mat-icon>add</mat-icon> Train New Model
+      </button>
+      <button mat-raised-button class="add-button ms-3" color="warn"
+              *ngIf="isTrainingJobRunning"
+              (click)="stopTrainingJob()">
+        <mat-icon>cancel</mat-icon> Cancel Training
+      </button>
+      <button mat-raised-button class="add-button ms-3" color="warn"
+              *ngIf="models.length === 0"
+              (click)="initialize()">
+        <mat-icon>cancel</mat-icon> Cancel Training
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <div class="row m-1">
+
+    <div class="col-12">
+      <table mat-table [dataSource]="models" class="mat-elevation-z0">
+
+        <ng-container matColumnDef="systemId">
+          <th mat-header-cell *matHeaderCellDef> System ID </th>
+          <td mat-cell *matCellDef="let model"> {{model.systemId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let model"> {{model.modelType.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="creationDate">
+          <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+          <td mat-cell *matCellDef="let model"> {{model.creationDate | date:'short'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let model">
+            <button mat-stroked-button class="add-button" color="primary"
+                    *ngIf="!isInferenceJobRunning"
+                    (click)="startInferenceJob()">
+              <mat-icon>start</mat-icon> Start
+            </button>
+            <button mat-stroked-button class="add-button" color="warn"
+                    *ngIf="model.isRunning && isInferenceJobRunning"
+                    (click)="stopInferenceJob()">
+              <mat-icon>stop</mat-icon> Stop
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let model; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #newModelTemplate>
+  <mat-card style="width: 300px">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Train New Model</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="newModelForm">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field>
+              <mat-label>
+                Base model
+              </mat-label>
+              <mat-select formControlName="typeId">
+                <mat-option *ngFor="let modelType of modelTypes" [value]="modelType">
+                  {{modelType.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <div class="align-right-bottom">
+              <button mat-raised-button color="primary"
+                      (click)="startTrainingJob()"
+                      [disabled]="newModelForm.invalid">
+                <mat-icon>start</mat-icon> Start</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

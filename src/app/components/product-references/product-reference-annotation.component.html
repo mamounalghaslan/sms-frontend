@@ -1,0 +1,211 @@
+
+<div class="row">
+  <div class="{{editable? 'col-6': 'col-12'}}">
+    <div class="row">
+      <div class="col-12"
+           style="text-align: center"
+           [ngClass]="editable? '': 'non-editable'">
+        <div>
+          <span style="color: green; font-weight: bold">Green</span>: Product set.
+          <span style="color: red; font-weight: bold">Red</span>: Product not set.
+          <span *ngIf="editable">
+          <span style="color: yellow; font-weight: bold">Yellow</span>: New.
+          <span style="color: blue; font-weight: bold">Blue</span>: New + Product set.
+          </span>
+        </div>
+        <img #refImage style="max-width: 100%" alt=""
+             (loaded)="initializeAnnotorious()"
+             [src]="shelfImageService.getImageLink('shelfImages',
+         this.shelfImage?.systemId!, this.shelfImage?.imageFileName!)">
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="row">
+      <div class="col-12" *ngIf="editable">
+        <div class="row">
+          <div class="col-6">
+            <h3>Product Selection</h3>
+            <mat-form-field>
+              <mat-label>Product</mat-label>
+              <input #productInput
+                     type="text"
+                     placeholder="-"
+                     matInput
+                     [formControl]="productSelectionControl"
+                     [matAutocomplete]="auto"
+                     (input)="filterProducts()"
+                     (focus)="filterProducts()">
+              <mat-autocomplete requireSelection #auto="matAutocomplete"
+                                [displayWith]="displayProduct">
+                <mat-option [value]="undefined"> - </mat-option>
+                <mat-option *ngFor="let product of filteredProductsList" [value]="product">
+                  {{product.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <div class="card" *ngIf="selectedProductReference?.product">
+              <div class="card-body">
+                <div class="text-center">
+                  <img class="img-fluid" style="height: 100px; max-height: 100%;"
+                       [src]="productsService.getImageLink('productsDisplayImages',
+                        selectedProductReference?.product?.systemId!,
+                        selectedProductReference?.product?.imageFileName!)" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="editable">
+        <h3>New/Updated Product References</h3>
+        <table mat-table [dataSource]="newProductReferences" class="mat-elevation-z0 tight-table">
+
+          <ng-container matColumnDef="systemId">
+            <th mat-header-cell *matHeaderCellDef> System ID </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)">
+              {{productReference.systemId < 0? 'New' : productReference.systemId}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef> Product </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)">
+              {{productReference.product? productReference.product?.name : '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="x1">
+            <th mat-header-cell *matHeaderCellDef> X1 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.x1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="y1">
+            <th mat-header-cell *matHeaderCellDef> Y1 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.y1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="x2">
+            <th mat-header-cell *matHeaderCellDef> X2 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.x2}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="y2">
+            <th mat-header-cell *matHeaderCellDef> Y2 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.y2}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+      </div>
+      <div class="col-12 mt-3" *ngIf="editable">
+        <h3>Deleted Product References</h3>
+        <table mat-table [dataSource]="deletedProductReferences" class="mat-elevation-z0 tight-table">
+
+          <ng-container matColumnDef="systemId">
+            <th mat-header-cell *matHeaderCellDef> System ID </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)">
+              {{productReference.systemId < 0? 'New' : productReference.systemId}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef> Product </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)">
+              {{productReference.product? productReference.product?.name : '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="x1">
+            <th mat-header-cell *matHeaderCellDef> X1 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.x1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="y1">
+            <th mat-header-cell *matHeaderCellDef> Y1 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.y1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="x2">
+            <th mat-header-cell *matHeaderCellDef> X2 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.x2}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="y2">
+            <th mat-header-cell *matHeaderCellDef> Y2 </th>
+            <td mat-cell *matCellDef="let productReference"
+                [ngStyle]="styleTableRow(productReference)"> {{productReference.y2}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <h3>All Current Product References</h3>
+    <table mat-table [dataSource]="productReferences" class="mat-elevation-z0 tight-table">
+
+      <ng-container matColumnDef="systemId">
+        <th mat-header-cell *matHeaderCellDef> System ID </th>
+        <td mat-cell *matCellDef="let productReference"
+            [ngStyle]="styleTableRow(productReference)">
+          {{productReference.systemId < 0? 'New' : productReference.systemId}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef> Product </th>
+        <td mat-cell *matCellDef="let productReference"
+            [ngStyle]="styleTableRow(productReference)">
+          {{productReference.product? productReference.product?.name : '-'}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="x1">
+        <th mat-header-cell *matHeaderCellDef> X1 </th>
+        <td mat-cell *matCellDef="let productReference"
+            [ngStyle]="styleTableRow(productReference)"> {{productReference.x1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="y1">
+        <th mat-header-cell *matHeaderCellDef> Y1 </th>
+        <td mat-cell *matCellDef="let productReference"
+            [ngStyle]="styleTableRow(productReference)"> {{productReference.y1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="x2">
+        <th mat-header-cell *matHeaderCellDef> X2 </th>
+        <td mat-cell *matCellDef="let productReference"
+            [ngStyle]="styleTableRow(productReference)"> {{productReference.x2}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="y2">
+        <th mat-header-cell *matHeaderCellDef> Y2 </th>
+        <td mat-cell *matCellDef="let productReference"
+            [ngStyle]="styleTableRow(productReference)"> {{productReference.y2}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+</div>

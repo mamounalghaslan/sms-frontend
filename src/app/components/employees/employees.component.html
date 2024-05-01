@@ -1,0 +1,72 @@
+<div>
+
+  <mat-toolbar class="mb-3 shadow-sm">
+    <span>Employees</span>
+    <span class="toolbar-spacer"></span>
+    <span>
+      <button mat-raised-button class="add-button" color="primary" (click)="openAddNewEmployeeTemplate()">
+        <mat-icon>add</mat-icon> Add New Employee
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <table mat-table [dataSource]="employeesList" class="mat-elevation-z0">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let employee"> {{employee.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mobile">
+      <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
+      <td mat-cell *matCellDef="let employee"> {{employee.mobile}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let employee">
+        <button mat-button color="warn" (click)="deleteEmployee(employee)">Delete</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+
+<ng-template #newEmployeeTemplate>
+  <mat-card style="width: 600px">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>New Employee</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="newEmployeeForm">
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <input matInput placeholder="Name" formControlName="name">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <input matInput placeholder="Mobile" formControlName="mobile">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+          </div>
+          <div class="col-6">
+            <div class="align-right-bottom">
+              <button mat-raised-button color="primary"
+                      [disabled]="newEmployeeForm.invalid"
+                      (click)="saveNewEmployee()">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
