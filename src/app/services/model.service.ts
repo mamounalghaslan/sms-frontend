@@ -64,4 +64,11 @@ export class ModelService {
     return this.http.get<Model[]>(this.jobsUrl + '/models');
   }
 
+  @SnackbarMessage(
+    'Initialization successful.',
+    'Error initializing.')
+  initialize(): Observable<null> {
+    return this.http.post<null>(this.jobsUrl + '/initialize', null);
+  }
+
 }

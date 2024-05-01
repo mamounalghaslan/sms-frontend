@@ -21,6 +21,11 @@
               (click)="stopTrainingJob()">
         <mat-icon>cancel</mat-icon> Cancel Training
       </button>
+      <button mat-raised-button class="add-button ms-3" color="warn"
+              *ngIf="models.length === 0"
+              (click)="initialize()">
+        <mat-icon>cancel</mat-icon> Cancel Training
+      </button>
     </span>
   </mat-toolbar>
 

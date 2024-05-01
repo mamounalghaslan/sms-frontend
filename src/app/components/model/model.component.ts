@@ -72,8 +72,8 @@ export class ModelComponent implements OnInit, OnDestroy {
 
   startInferenceJob() {
     this.service.startInferenceJob().subscribe((info: string) => {
-      this.queryModelsInfo();
       console.log(info);
+      this.queryModelsInfo();
     });
   }
 
@@ -110,6 +110,12 @@ export class ModelComponent implements OnInit, OnDestroy {
           console.log(info);
         });
       }
+    });
+  }
+
+  initialize() {
+    this.service.initialize().subscribe(() => {
+      this.queryModelsInfo();
     });
   }
 
