@@ -9,6 +9,7 @@
         <mat-icon>add</mat-icon> Add New Camera
       </button>
       <button mat-raised-button class="add-button ms-3" color="primary"
+              *ngIf="cameras.length === 0"
               (click)="initializeCameras()">
         <mat-icon>add</mat-icon> Initialize Cameras
       </button>
