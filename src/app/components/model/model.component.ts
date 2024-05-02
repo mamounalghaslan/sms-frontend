@@ -119,4 +119,17 @@ export class ModelComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteModel(model: Model) {
+    this.dialog.open(ConfirmationDialogComponent, {
+      width: '500px',
+      data: {message: 'Are you sure you want to delete model ' + model.systemId + '?'}
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deleteModel(model.systemId).subscribe(() => {
+          this.queryModelsInfo();
+        });
+      }
+    });
+  }
+
 }

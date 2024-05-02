@@ -57,9 +57,14 @@
               <mat-icon>start</mat-icon> Start
             </button>
             <button mat-stroked-button class="add-button" color="warn"
-                    *ngIf="model.isRunning && isInferenceJobRunning"
+                    *ngIf="isInferenceJobRunning"
                     (click)="stopInferenceJob()">
               <mat-icon>stop</mat-icon> Stop
+            </button>
+            <button mat-stroked-button class="add-button ms-3" color="warn"
+                    *ngIf="!isInferenceJobRunning"
+                    (click)="deleteModel(model)">
+              <mat-icon>delete</mat-icon> Delete
             </button>
           </td>
         </ng-container>

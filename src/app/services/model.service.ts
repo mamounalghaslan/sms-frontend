@@ -71,4 +71,11 @@ export class ModelService {
     return this.http.post<null>(this.jobsUrl + '/initialize', null);
   }
 
+  @SnackbarMessage(
+    'Model deleted successfully.',
+    'Error deleting model.')
+  deleteModel(modelId: number): Observable<null> {
+    return this.http.delete<null>(this.jobsUrl + '/' + modelId);
+  }
+
 }

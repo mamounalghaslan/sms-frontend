@@ -11,13 +11,17 @@ import {ProductReferenceParameters} from "../../models/ProductReferenceParameter
 import {Product} from "../../models/Product";
 import {ProductsService} from "../../services/products.service";
 import {FormControl} from "@angular/forms";
+import {
+  MisplacedProductReferenceComponent
+} from "../misplaced-product-references/misplaced-product-reference.component";
 
 @Component({
   standalone: true,
   selector: 'app-product-reference-annotation',
   imports: [
     SharedModule,
-    ImageLoadedDirective
+    ImageLoadedDirective,
+    MisplacedProductReferenceComponent
   ],
   templateUrl: './product-reference-annotation.component.html'
 })
