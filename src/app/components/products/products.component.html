@@ -1,12 +1,10 @@
-<div>
-
-  <mat-toolbar class="mb-3 shadow-sm w-100">
-    <div>Products</div>
-    <mat-form-field subscriptSizing="dynamic" class="ms-3">
-      <input matInput placeholder="Search Products" (keyup)="filterProducts($event)">
-    </mat-form-field>
-    <span class="toolbar-spacer"></span>
-    <span>
+<mat-toolbar class="mb-3 shadow-sm w-100">
+  <div>Products</div>
+  <mat-form-field subscriptSizing="dynamic" class="ms-3">
+    <input matInput placeholder="Search Products" (keyup)="filterProducts($event)">
+  </mat-form-field>
+  <span class="toolbar-spacer"></span>
+  <span>
       <button mat-raised-button class="add-button" color="primary" (click)="openAddNewProductTemplate()">
         <mat-icon>add</mat-icon> Add New Product
       </button>
@@ -16,34 +14,27 @@
         <mat-icon>add</mat-icon> Initialize Products
       </button>
     </span>
-  </mat-toolbar>
+</mat-toolbar>
 
-  <mat-grid-list cols="5" rowHeight="1:1">
-    <mat-grid-tile *ngFor="let product of filteredProducts">
-      <div class="card h-100 w-100">
-        <div class="card-header">
-          <div class="d-flex">
-            <h4>{{product.name}}</h4>
-            <span class="toolbar-spacer"></span>
-            <span>
-              <button mat-mini-fab class="btn-close mat-elevation-z0" color="warn" (click)="deleteProduct(product)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </span>
-          </div>
-        </div>
-        <div class="card-body p-1">
-          <div class="text-center">
-            <img class="img-fluid" style="height: 175px; max-height: 100%;"
-                 [src]="service.getImageLink('productsDisplayImages',
+<div class="row">
+  <div class="col-2 mb-3 d-flex" *ngFor="let product of filteredProducts">
+    <mat-card style="flex-basis: 100%;">
+      <mat-card-header>
+        <span>{{product.name}}</span>
+        <span class="toolbar-spacer"></span>
+        <span style="color: #f44336"><a (click)="deleteProduct(product)"><mat-icon>delete</mat-icon></a></span>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-center">
+          <img class="img-fluid" style="height: 200px; max-height: 100%;"
+               [src]="service.getImageLink('productsDisplayImages',
                   product.systemId!, product.imageFileName!)" alt="">
-          </div>
         </div>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
+
 
 <ng-template #newProductTemplate>
   <mat-card style="width: 600px">

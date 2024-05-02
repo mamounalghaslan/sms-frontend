@@ -157,11 +157,11 @@ export class MisplacedProductReferenceComponent implements OnInit {
   formatAnnotation(annotation: any): any {
     if(annotation.underlying.statusType === 'MIS') {
       return {
-        'style': 'stroke-width:2; stroke: yellow'
+        'style': 'stroke-width:4; stroke: dodgerblue'
       }
     } else if(annotation.underlying.statusType === 'OOS') {
       return {
-        'style': 'stroke-width:2; stroke: red'
+        'style': 'stroke-width:4; stroke: orangered'
       }
     }
   }

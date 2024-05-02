@@ -29,9 +29,8 @@
     </span>
   </mat-toolbar>
 
-  <div class="row m-1">
-
-    <div class="col-12">
+  <mat-card>
+    <mat-card-content>
       <table mat-table [dataSource]="models" class="mat-elevation-z0">
 
         <ng-container matColumnDef="systemId">
@@ -69,9 +68,8 @@
         <tr mat-row *matRowDef="let model; columns: displayedColumns;"></tr>
 
       </table>
-    </div>
-
-  </div>
+    </mat-card-content>
+  </mat-card>
 
 </div>
 

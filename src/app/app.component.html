@@ -1,10 +1,11 @@
 
-<mat-toolbar>
-  <span>Shelf Monitoring System</span>
+<mat-toolbar color="primary">
+  <img src="assets/logo.JPG" height="64" width="330" alt="">
   <span class="toolbar-spacer"></span>
-  <span>Welcome, Mamoun</span>
+  <span><mat-icon style="margin-top: 7px">person</mat-icon></span>
+  <span><mat-icon style="margin-top: 7px; margin-left: 20px">logout</mat-icon></span>
 </mat-toolbar>
-<mat-sidenav-container>
+<mat-sidenav-container style="background: white">
   <mat-sidenav mode="side" opened >
     <mat-nav-list>
       <a mat-list-item routerLink="/dashboard">Dashboard</a>
@@ -16,10 +17,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content class="p-3">
-    <mat-card>
-      <mat-card-content>
-        <router-outlet></router-outlet>
-      </mat-card-content>
-    </mat-card>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
