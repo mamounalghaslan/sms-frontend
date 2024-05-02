@@ -23,12 +23,14 @@ import {CamerasService} from "../../services/cameras.service";
 })
 export class MisplacedProductReferenceComponent implements OnInit {
 
-  misDisplayedColumns: string[] = ['misplacedProduct', 'detectedProduct', 'x1', 'y1', 'x2', 'y2'];
-  oosDisplayedColumns: string[] = ['oosProduct', 'x1', 'y1', 'x2', 'y2'];
+  misDisplayedColumns: string[] = ['misplacedProduct', 'detectedProduct'];
+  oosDisplayedColumns: string[] = ['oosProduct'];
 
   misplacedProductReferences: MisplacedProductReference[] = [];
   hoveredMisplacedProductReferenceId: number = 0;
   misplacedProductReferencesObservable: Observable<MisplacedProductReference[]> | undefined;
+
+  selectedMisplacedProductReference: MisplacedProductReference | undefined;
 
   totalProductsCount: number = 0;
   health: number = 0;
@@ -72,6 +74,18 @@ export class MisplacedProductReferenceComponent implements OnInit {
 
     this.annotorious.on('mouseLeaveAnnotation', () => {
       this.hoveredMisplacedProductReferenceId = 0;
+    });
+
+    this.annotorious.on('clickAnnotation', (annotation: any) => {
+      this.selectedMisplacedProductReference = this.findProductReference(annotation.id);
+    });
+
+    this.annotorious.on('changeSelected', (selection: any) => {
+      this.selectedMisplacedProductReference = this.findProductReference(selection.id);
+    });
+
+    this.annotorious.on('cancelSelected', () => {
+      this.selectedMisplacedProductReference = undefined;
     });
 
     this.misplacedProductReferencesObservable?.subscribe((misplacedProductReferences: MisplacedProductReference[]) => {
@@ -159,6 +173,12 @@ export class MisplacedProductReferenceComponent implements OnInit {
     }
     return this.misplacedProductReferences.filter(misplacedProductReference =>
       !misplacedProductReference.detectedProduct);
+  }
+
+  findProductReference(systemId: number): MisplacedProductReference | undefined {
+    return this.misplacedProductReferences.find(
+      (misplacedProductReference: MisplacedProductReference)=>
+        misplacedProductReference.systemId === systemId);
   }
 
 }

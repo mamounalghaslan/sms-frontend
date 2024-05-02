@@ -7,9 +7,9 @@
   <mat-accordion>
     <mat-expansion-panel *ngFor="let camera of cameras">
       <mat-expansion-panel-header>
-        <mat-panel-title>
+        <mat-panel-title class="align-text-bottom">
           <span>Camera {{camera.systemId}}</span>
-          <span class="ms-5">Location: {{camera.location}}</span>
+          <span class="ms-1">&#64; {{camera.location}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div *ngFor="let shelfImage of getShelfImagesForCamera(camera)" class="mb-3">
