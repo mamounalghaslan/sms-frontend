@@ -9,6 +9,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <span>Camera {{camera.systemId}}</span>
+          <span class="ms-5">Location: {{camera.location}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div *ngFor="let shelfImage of getShelfImagesForCamera(camera)" class="mb-3">

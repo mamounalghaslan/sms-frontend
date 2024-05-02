@@ -9,6 +9,8 @@ import {Observable} from "rxjs";
 import {Product} from "../../models/Product";
 import {ProductsService} from "../../services/products.service";
 import {MisplacedProductReference} from "../../models/MisplacedProductReference";
+import {ProductReference} from "../../models/ProductReference";
+import {CamerasService} from "../../services/cameras.service";
 
 @Component({
   standalone: true,
@@ -28,6 +30,9 @@ export class MisplacedProductReferenceComponent implements OnInit {
   hoveredMisplacedProductReferenceId: number = 0;
   misplacedProductReferencesObservable: Observable<MisplacedProductReference[]> | undefined;
 
+  totalProductsCount: number = 0;
+  health: number = 0;
+
   @Input()
   shelfImage: ShelfImage | undefined;
 
@@ -39,7 +44,8 @@ export class MisplacedProductReferenceComponent implements OnInit {
   annotorious: any;
 
   constructor(public shelfImageService: ShelfImageService,
-              public productsService: ProductsService) {
+              public productsService: ProductsService,
+              public camerasService: CamerasService) {
   }
 
   ngOnInit() {
@@ -69,10 +75,23 @@ export class MisplacedProductReferenceComponent implements OnInit {
     });
 
     this.misplacedProductReferencesObservable?.subscribe((misplacedProductReferences: MisplacedProductReference[]) => {
+
       this.misplacedProductReferences = misplacedProductReferences;
+
       for (let misplacedProductReference of this.misplacedProductReferences) {
         this.annotorious.addAnnotation(this.createAnnotation(misplacedProductReference));
       }
+
+      this.camerasService.getCameraReferenceImage(this.shelfImage?.referencedCamera?.systemId!)
+        .subscribe((shelfImage: ShelfImage) => {
+          this.shelfImageService.getProductReferencesByShelfImage(shelfImage.systemId!)
+            .subscribe((productReferences: ProductReference[]) => {
+              this.totalProductsCount = productReferences.length;
+              // Calculate the health of the shelf and round to 2 decimal places
+              this.health = Math.round((1 - this.misplacedProductReferences.length / this.totalProductsCount) * 100);
+            });
+        });
+
     });
 
   }

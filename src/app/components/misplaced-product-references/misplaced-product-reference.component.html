@@ -16,92 +16,120 @@
     </div>
   </div>
   <div class="col-6">
-    <h3>Misplaced Products</h3>
-    <table mat-table [dataSource]="filterMisplacedProductReferences('MIS')" class="mat-elevation-z0 tight-table">
 
-      <ng-container matColumnDef="misplacedProduct">
-        <th mat-header-cell *matHeaderCellDef> Misplaced Product </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)">
-          {{misplacedProductReference.misplacedProduct?.name}}
-        </td>
-      </ng-container>
+    <mat-accordion>
+      <mat-label>
+        <h3>
+          <span><b>Capture Date</b>: {{shelfImage?.captureDate | date: 'short'}}</span>
+          <span class="ms-5"><b>Products count</b>: {{misplacedProductReferences.length}}/{{totalProductsCount}}</span>
+          <span class="ms-5"><b>Health</b>: {{health}}%</span>
+        </h3>
+      </mat-label>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>Misplaced Products - Count: {{filterMisplacedProductReferences('MIS').length}}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table mat-table
+               *ngIf="filterMisplacedProductReferences('MIS').length > 0"
+               [dataSource]="filterMisplacedProductReferences('MIS')"
+               class="mat-elevation-z0 tight-table">
 
-      <ng-container matColumnDef="detectedProduct">
-        <th mat-header-cell *matHeaderCellDef> Detected Product </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)">
-          {{misplacedProductReference.detectedProduct?.name}}
-        </td>
-      </ng-container>
+          <ng-container matColumnDef="detectedProduct">
+            <th mat-header-cell *matHeaderCellDef> Detected Product </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)">
+              {{misplacedProductReference.detectedProduct?.name}}
+            </td>
+          </ng-container>
 
-      <ng-container matColumnDef="x1">
-        <th mat-header-cell *matHeaderCellDef> X1 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x1}} </td>
-      </ng-container>
+          <ng-container matColumnDef="misplacedProduct">
+            <th mat-header-cell *matHeaderCellDef> Original Product </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)">
+              {{misplacedProductReference.misplacedProduct?.name}}
+            </td>
+          </ng-container>
 
-      <ng-container matColumnDef="y1">
-        <th mat-header-cell *matHeaderCellDef> Y1 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y1}} </td>
-      </ng-container>
+          <ng-container matColumnDef="x1">
+            <th mat-header-cell *matHeaderCellDef> X1 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x1}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="x2">
-        <th mat-header-cell *matHeaderCellDef> X2 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x2}} </td>
-      </ng-container>
+          <ng-container matColumnDef="y1">
+            <th mat-header-cell *matHeaderCellDef> Y1 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y1}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="y2">
-        <th mat-header-cell *matHeaderCellDef> Y2 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y2}} </td>
-      </ng-container>
+          <ng-container matColumnDef="x2">
+            <th mat-header-cell *matHeaderCellDef> X2 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x2}} </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="misDisplayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: misDisplayedColumns;"></tr>
+          <ng-container matColumnDef="y2">
+            <th mat-header-cell *matHeaderCellDef> Y2 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y2}} </td>
+          </ng-container>
 
-    </table>
+          <tr mat-header-row *matHeaderRowDef="misDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: misDisplayedColumns;"></tr>
 
-    <h3>Out Of Stock Products</h3>
-    <table mat-table [dataSource]="filterMisplacedProductReferences('OOS')" class="mat-elevation-z0 tight-table">
+        </table>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>Out Of Stock Products - Count: {{filterMisplacedProductReferences('OOS').length}}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table mat-table
+               *ngIf="filterMisplacedProductReferences('OOS').length > 0"
+               [dataSource]="filterMisplacedProductReferences('OOS')"
+               class="mat-elevation-z0 tight-table">
 
-      <ng-container matColumnDef="oosProduct">
-        <th mat-header-cell *matHeaderCellDef> Out Of Stock Product </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)">
-          {{misplacedProductReference.misplacedProduct?.name}}
-        </td>
-      </ng-container>
+          <ng-container matColumnDef="oosProduct">
+            <th mat-header-cell *matHeaderCellDef> Out Of Stock Product </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)">
+              {{misplacedProductReference.misplacedProduct?.name}}
+            </td>
+          </ng-container>
 
-      <ng-container matColumnDef="x1">
-        <th mat-header-cell *matHeaderCellDef> X1 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x1}} </td>
-      </ng-container>
+          <ng-container matColumnDef="x1">
+            <th mat-header-cell *matHeaderCellDef> X1 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x1}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="y1">
-        <th mat-header-cell *matHeaderCellDef> Y1 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y1}} </td>
-      </ng-container>
+          <ng-container matColumnDef="y1">
+            <th mat-header-cell *matHeaderCellDef> Y1 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y1}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="x2">
-        <th mat-header-cell *matHeaderCellDef> X2 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x2}} </td>
-      </ng-container>
+          <ng-container matColumnDef="x2">
+            <th mat-header-cell *matHeaderCellDef> X2 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.x2}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="y2">
-        <th mat-header-cell *matHeaderCellDef> Y2 </th>
-        <td mat-cell *matCellDef="let misplacedProductReference"
-            [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y2}} </td>
-      </ng-container>
+          <ng-container matColumnDef="y2">
+            <th mat-header-cell *matHeaderCellDef> Y2 </th>
+            <td mat-cell *matCellDef="let misplacedProductReference"
+                [ngStyle]="styleTableRow(misplacedProductReference)"> {{misplacedProductReference.y2}} </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="oosDisplayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: oosDisplayedColumns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="oosDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: oosDisplayedColumns;"></tr>
 
-    </table>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+
   </div>
 </div>
