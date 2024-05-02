@@ -27,7 +27,7 @@ import {
 })
 export class ProductReferenceAnnotationComponent implements OnInit {
 
-  displayedColumns: string[] = ['systemId', 'product', 'x1', 'y1', 'x2', 'y2'];
+  displayedColumns: string[] = ['systemId', 'product'];
 
   productReferences: ProductReference[] = [];
   newProductReferences: ProductReference[] = [];
