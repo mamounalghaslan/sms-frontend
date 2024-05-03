@@ -30,11 +30,11 @@
         </div>
       </div>
 
-      <div class="col-3">
+      <div class="col-3 border-start">
         <div class="row">
           <div class="col-12 mt-3">
-            <h2>Product Selection</h2>
-            <mat-form-field class="w-100">
+            <h2 *ngIf="editable">Product Selection</h2>
+            <mat-form-field class="w-100" *ngIf="editable">
               <mat-label>Product</mat-label>
               <input #productInput
                      type="text"
@@ -58,10 +58,13 @@
             <div class="card" *ngIf="selectedProductReference?.product">
               <div class="card-body">
                 <div class="text-center">
-                  <img class="img-fluid" style="height: 350px; max-height: 100%;"
+                  <img class="img-fluid" style="height: 300px; max-height: 100%;"
                        [src]="productsService.getImageLink('productsDisplayImages',
                         selectedProductReference?.product?.systemId!,
                         selectedProductReference?.product?.imageFileName!)" alt="">
+                  <h3 class="mt-2">
+                    {{selectedProductReference?.product?.name}}
+                  </h3>
                 </div>
               </div>
             </div>

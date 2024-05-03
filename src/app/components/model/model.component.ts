@@ -24,7 +24,7 @@ export class ModelComponent implements OnInit, OnDestroy {
   isTrainingJobRunning: boolean = true;
 
   public newModelForm: FormGroup = this.fb.group({
-    typeId: ['', Validators.required]
+    modelType: [null, Validators.required]
   });
 
   @ViewChild('newModelTemplate', {static: false})
@@ -70,8 +70,8 @@ export class ModelComponent implements OnInit, OnDestroy {
     });
   }
 
-  startInferenceJob() {
-    this.service.startInferenceJob().subscribe((info: string) => {
+  startInferenceJob(model: Model) {
+    this.service.startInferenceJob(model).subscribe((info: string) => {
       console.log(info);
       this.queryModelsInfo();
     });
@@ -92,11 +92,13 @@ export class ModelComponent implements OnInit, OnDestroy {
   }
 
   startTrainingJob() {
-    this.service.startTrainingJob().subscribe((info: string) => {
-      this.dialog.closeAll();
-      this.queryModelsInfo();
-      console.log(info);
-    });
+    if(this.newModelForm.valid) {
+      this.service.startTrainingJob(this.newModelForm.value.modelType).subscribe((info: string) => {
+        this.dialog.closeAll();
+        this.queryModelsInfo();
+        console.log(info);
+      });
+    }
   }
 
   stopTrainingJob() {

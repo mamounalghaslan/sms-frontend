@@ -6,5 +6,6 @@ export interface Model {
   modelType: ModelType;
   creationDate: Date;
   isRunning: boolean;
+  modelFileName: string;
 
 }

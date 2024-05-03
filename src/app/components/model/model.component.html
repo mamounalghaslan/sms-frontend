@@ -16,11 +16,11 @@
               (click)="openNewModelTemplate()">
         <mat-icon>add</mat-icon> Train New Model
       </button>
-      <button mat-raised-button class="add-button ms-3" color="warn"
-              *ngIf="isTrainingJobRunning"
-              (click)="stopTrainingJob()">
-        <mat-icon>cancel</mat-icon> Cancel Training
-      </button>
+<!--      <button mat-raised-button class="add-button ms-3" color="warn"-->
+<!--              *ngIf="isTrainingJobRunning"-->
+<!--              (click)="stopTrainingJob()">-->
+<!--        <mat-icon>cancel</mat-icon> Cancel Training-->
+<!--      </button>-->
       <button mat-raised-button class="add-button ms-3" color="warn"
               *ngIf="models.length === 0"
               (click)="initialize()">
@@ -40,7 +40,7 @@
 
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef> Type </th>
-          <td mat-cell *matCellDef="let model"> {{model.modelType.name}} </td>
+          <td mat-cell *matCellDef="let model"> {{model.modelType.backboneName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="creationDate">
@@ -53,11 +53,11 @@
           <td mat-cell *matCellDef="let model">
             <button mat-stroked-button class="add-button" color="primary"
                     *ngIf="!isInferenceJobRunning"
-                    (click)="startInferenceJob()">
+                    (click)="startInferenceJob(model)">
               <mat-icon>start</mat-icon> Start
             </button>
             <button mat-stroked-button class="add-button" color="warn"
-                    *ngIf="isInferenceJobRunning"
+                    *ngIf="isInferenceJobRunning && model.isRunning"
                     (click)="stopInferenceJob()">
               <mat-icon>stop</mat-icon> Stop
             </button>
@@ -93,9 +93,9 @@
               <mat-label>
                 Base model
               </mat-label>
-              <mat-select formControlName="typeId">
+              <mat-select formControlName="modelType">
                 <mat-option *ngFor="let modelType of modelTypes" [value]="modelType">
-                  {{modelType.name}}
+                  {{modelType.backboneName}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

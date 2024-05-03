@@ -19,8 +19,8 @@ export class ModelService {
   @SnackbarMessage(
     'Inference job started successfully.',
     'Error in starting inference job.')
-  startInferenceJob(): Observable<string> {
-    return this.http.post(this.jobsUrl + '/start-inference', null, {responseType: 'text'});
+  startInferenceJob(model: Model): Observable<string> {
+    return this.http.post(this.jobsUrl + '/start-inference', model, {responseType: 'text'});
   }
 
   @SnackbarMessage(
@@ -39,8 +39,8 @@ export class ModelService {
   @SnackbarMessage(
     'Training job started successfully.',
     'Error in starting training job.')
-  startTrainingJob(): Observable<string> {
-    return this.http.post(this.jobsUrl + '/start-training', null, {responseType: 'text'});
+  startTrainingJob(modelType: ModelType): Observable<string> {
+    return this.http.post(this.jobsUrl + '/start-training', modelType, {responseType: 'text'});
   }
 
   @SnackbarMessage(
