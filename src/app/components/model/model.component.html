@@ -21,10 +21,10 @@
 <!--              (click)="stopTrainingJob()">-->
 <!--        <mat-icon>cancel</mat-icon> Cancel Training-->
 <!--      </button>-->
-      <button mat-raised-button class="add-button ms-3" color="warn"
+      <button mat-raised-button class="add-button ms-3" color="primary"
               *ngIf="models.length === 0"
               (click)="initialize()">
-        <mat-icon>cancel</mat-icon> Cancel Training
+        <mat-icon>add</mat-icon> Initialize
       </button>
     </span>
   </mat-toolbar>
@@ -57,7 +57,7 @@
               <mat-icon>start</mat-icon> Start
             </button>
             <button mat-stroked-button class="add-button" color="warn"
-                    *ngIf="isInferenceJobRunning && model.isRunning"
+                    *ngIf="isInferenceJobRunning"
                     (click)="stopInferenceJob()">
               <mat-icon>stop</mat-icon> Stop
             </button>

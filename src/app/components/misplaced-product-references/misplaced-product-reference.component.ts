@@ -164,6 +164,7 @@ export class MisplacedProductReferenceComponent implements OnInit {
         'style': 'stroke-width:4; stroke: orangered'
       }
     }
+    return {}
   }
 
   filterMisplacedProductReferences(type: string): MisplacedProductReference[] {
